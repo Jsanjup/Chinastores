@@ -205,7 +205,10 @@ public class StoresDbAdapter {
         initialValues.put(KEY_FOTO, foto);
         initialValues.put(KEY_INFO, info);
         initialValues.put(KEY_COMENTS, coments);
-
+        if(confirmed)
+            initialValues.put(KEY_CONFIRMED, CONFIRMED);
+        else 
+            initialValues.put(KEY_CONFIRMED, NOTCONFIRMED);
         return mDb.update(DATABASE_TABLE, initialValues, KEY_ROWID + "=" + rowId, null) > 0;
     }
 }

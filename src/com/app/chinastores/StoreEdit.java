@@ -127,9 +127,15 @@ public class StoreEdit extends Activity {
             valorar.setRating(a);
             String s=note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_CONFIRMED));
             int confirmado=Integer.parseInt(s);
+
+            Log.w("cargar confirmacion", ""+(confirmado == StoresDbAdapter.CONFIRMED));
+            
             if (confirmado == StoresDbAdapter.CONFIRMED){
-            	confirmar.setVisibility(View.INVISIBLE);            	
-            } else confirmar.setVisibility(View.VISIBLE);
+            	confirmar.setVisibility(View.INVISIBLE);
+            	Log.w("cargar confirmacion", "invisible");
+            } else{confirmar.setVisibility(View.VISIBLE);
+            Log.w("cargar confirmacion", "visible");
+            }
             char type = note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_TYPE)).charAt(0);
             if (type=='B')  tipo.setChecked(true);
             else tipo.setChecked(false);
@@ -157,6 +163,7 @@ public class StoreEdit extends Activity {
         String title = direccion.getText().toString();
         float valorando =  valorar.getRating();
         int nvalor = 0;
+        Log.w("confirmar", ""+confirmed);
         String foto = "@drawable/store";
         String informacion= info.getText().toString();
         String comentario = comentar.getText().toString();

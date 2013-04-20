@@ -16,16 +16,17 @@ import android.widget.TextView;
 public class CustomCursorAdapter extends CursorAdapter {
  
 	int distance =0;
+	private LayoutInflater inflater;
     public CustomCursorAdapter(Context context, Cursor c, int distance) {
        super(context, c,0);
        this.distance=distance;
+       inflater = LayoutInflater.from(context);
     }
  
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         // when the view will be created for first time,
         // we need to tell the adapters, how each item will look
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View retView = inflater.inflate(R.layout.notes_row, parent, false);
         bindView(retView, context, cursor);
         return retView;
@@ -40,7 +41,7 @@ public class CustomCursorAdapter extends CursorAdapter {
         direccion.setText(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_ADDRESS)));
     	
         TextView distancia =(TextView) view.findViewById(R.id.row_distancia);
-        direccion.setText(""+distancia);
+        distancia.setText(""+distance);
         ImageView confirmed = (ImageView) view.findViewById(R.id.row_tick);
         confirmed.setVisibility(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_CONFIRMED))));        
         RatingBar valoracion = (RatingBar) view.findViewById(R.id.row_valoracion);
