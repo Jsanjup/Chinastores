@@ -47,7 +47,7 @@ public class StoreEdit extends Activity {
     private Button send;
     private Button accept;
     private Button remove;
-    
+    private int nValor;
     private boolean confirmed;
     
     private Long mRowId;
@@ -127,20 +127,29 @@ public class StoreEdit extends Activity {
             valorar.setRating(a);
             String s=note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_CONFIRMED));
             int confirmado=Integer.parseInt(s);
+             nValor= Integer.parseInt(note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_CONFIRMED)));
 
             Log.w("cargar confirmacion", ""+(confirmado == StoresDbAdapter.CONFIRMED));
             
             if (confirmado == StoresDbAdapter.CONFIRMED){
+            	confirmed=true;
             	confirmar.setVisibility(View.INVISIBLE);
-            	Log.w("cargar confirmacion", "invisible");
             } else{confirmar.setVisibility(View.VISIBLE);
-            Log.w("cargar confirmacion", "visible");
+            confirmed=false;
             }
             char type = note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_TYPE)).charAt(0);
             if (type=='B')  tipo.setChecked(true);
             else tipo.setChecked(false);
         }
     }
+    /**
+    public float valorar(float newval){
+		float total = nval*val;
+		total += newval;
+		nval++;
+		val=total/nval;	
+		return val;
+	}*/
     
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
