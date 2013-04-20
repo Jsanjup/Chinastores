@@ -6,20 +6,26 @@
     <string name="but_A">Alimentación</string>
     <string name="but_B">Bazares</string>
     <string name="no_stores">No Stores Yet</string>
+    <string name="accept">Accept</string>
     <string name="menu_insert">Add Store</string>
+    <string name="menu_map">See in Map</string>
+    <string name="menu_help">Help</string>
+    <string name="menu_exit">Exit</string>
     <string name="menu_delete">Delete Store</string>
     <string name="title">Title</string>
-    <string name="body">Body</string>
+    <string name="load_foto">Load image</string>
     <string name="confirm">Confirm</string>
+    <string name="hint_address">Type address</string>
+    <string name="hint_info">Write info</string>
     <string name="hint_comentario">Send any comments</string>
     <string name="edit_store">Edit Store</string>
     <string name="enviar_comentario">Send</string>
     <string name="ver_comentarios">See all</string>
-    <string name="develloped_by">\n Desarrollada por:</string>
+    <string name="develloped_by">\n Develloped by:</string>
     <string name="devellopers">\n Rafael Comendador \n José San Juan \n</string>
     <string name="version">Version: 1.1</string>
-    <string name="date">Ultima modificación: 22/04/2013\n</string>
+    <string name="date">Last modification: 20/04/2013\n</string>
     <string name="info">Proyecto de la asignatura\nSOFTWARE DE COMUNICACIONES\n			Año 2013 \n \nLocalizador de comercios de alimentación y bazares en la ciudad de Madrid\n</string>
-    <string name="rights">\nTodos los derechos reservados ©\n</string>
+    <string name="rights">\nAll rights reserved ©\n</string>
 
 </resources>

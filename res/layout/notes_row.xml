@@ -18,7 +18,7 @@
             android:textSize="26sp" />
 
         <ImageView
-            android:id="@+id/imageconfirm"
+            android:id="@+id/row_tick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/tick"
@@ -26,7 +26,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/distancia"
+        android:id="@+id/row_distancia"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="0 kms"
@@ -38,11 +38,12 @@
         android:layout_gravity="center_horizontal" >
 
         <RatingBar
-            android:id="@+id/rating"
+            android:id="@+id/row_valoracion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:numStars="5" />
+            android:numStars="5"
+            android:isIndicator="true" />
 
     </LinearLayout>
 

@@ -45,6 +45,8 @@ public class StoresDbAdapter {
     public static final String KEY_COMENTS = "coments";
     public static final String KEY_CONFIRMED= "confirmation";
     public static final String KEY_ROWID = "_id";
+    public static final int CONFIRMED = 0;
+    public static final int NOTCONFIRMED = 4;
 
     private static final String TAG = "NotesDbAdapter";
     private DatabaseHelper mDbHelper;
@@ -123,7 +125,7 @@ public class StoresDbAdapter {
      * @param body the body of the note
      * @return rowId or -1 if failed
      */
-    public long createNote(char A, String address, int valor, String foto, String info, String coments, boolean confirmed) {
+    public long createNote(char A, String address, float valor, String foto, String info, String coments, boolean confirmed) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_TYPE, ""+A);
         initialValues.put(KEY_ADDRESS, address);
@@ -133,9 +135,9 @@ public class StoresDbAdapter {
         initialValues.put(KEY_INFO, info);
         initialValues.put(KEY_COMENTS, coments);
         if(confirmed)
-            initialValues.put(KEY_CONFIRMED, 1);
+            initialValues.put(KEY_CONFIRMED, CONFIRMED);
         else 
-            initialValues.put(KEY_CONFIRMED, 0);
+            initialValues.put(KEY_CONFIRMED, NOTCONFIRMED);
         
 
         return mDb.insert(DATABASE_TABLE, null, initialValues);
@@ -194,12 +196,12 @@ public class StoresDbAdapter {
      * @param body value to set note body to
      * @return true if the note was successfully updated, false otherwise
      */
-    public boolean updateNote(long rowId, char A, String address, int valor, String foto, String info, String coments, boolean confirmed) {
+    public boolean updateNote(long rowId, char A, String address, float valor, int nValor, String foto, String info, String coments, boolean confirmed) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_TYPE, ""+A);
         initialValues.put(KEY_ADDRESS, address);
         initialValues.put(KEY_VALOR, valor);
-        initialValues.put(KEY_NVALOR, 0);
+        initialValues.put(KEY_NVALOR, nValor);
         initialValues.put(KEY_FOTO, foto);
         initialValues.put(KEY_INFO, info);
         initialValues.put(KEY_COMENTS, coments);

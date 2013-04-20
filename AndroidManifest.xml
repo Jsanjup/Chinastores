@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.app.chinastores">
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/><uses-permission android:name="android.permission.INTERNET" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.app.chinastores"
+    android:versionCode="1"
+    android:versionName="1.0" >
 
-    <application android:icon="@drawable/store">
-        <activity android:name=".MainActivity" android:label="@string/app_name">
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/store"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.app.chinastores.MainActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NoteEdit" />
-        
+        <activity android:name="com.app.chinastores.StoreEdit"></activity>
+        <activity android:name="InfoActivity"></activity>
+        <activity android:name="MapActivity"></activity>
+        <activity android:name="StoreView"></activity>
     </application>
-</manifest> 
+
+</manifest>

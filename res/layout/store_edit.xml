@@ -8,30 +8,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/title"
+        <EditText
+            android:id="@+id/edit_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_weight="1"
-            android:text="Large Text"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:hint="@string/hint_address" />
 
         <RelativeLayout
             android:layout_width="117dp"
             android:layout_height="match_parent"
             android:gravity="right" >
 
-            <ImageView
-                android:id="@+id/imageconfirmed"
-                android:layout_width="42dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/tick"
-                android:visibility="invisible" />
-
             <CheckBox
-                android:id="@+id/checkBox1"
+                android:id="@+id/edit_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -42,72 +34,73 @@
     </LinearLayout>
 
     <RatingBar
-        android:id="@+id/ratingBar2"
+        android:id="@+id/edit_valoracion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
 
-    <ImageView
-        android:id="@+id/foto"
+    <Button
+        android:id="@+id/load_foto"
         android:layout_width="match_parent"
-        android:layout_height="150dip"
-        android:src="@drawable/store" />
-
-    <TextView
-        android:id="@+id/info"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_height="wrap_content"
+        android:text="@string/load_foto" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="131dp" >
+
+        <ToggleButton
+            android:id="@+id/edit_tipo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textOff="@string/but_A"
+            android:textOn="@string/but_B" />
 
         <EditText
-            android:id="@+id/comentar"
-            android:layout_width="164dp"
+            android:id="@+id/edit_info"
+            android:layout_width="195dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textMultiLine" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:hint="@string/hint_comentario" >
-
-            <Button
-                android:id="@+id/but_enviar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/ver_comentarios" />
-
-            <Button
-                android:id="@+id/but_ver"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/enviar_comentario" />
-        </LinearLayout>
-
+            android:layout_weight="0.04"
+            android:hint="@string/hint_info"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="132dp" >
+
+    <EditText
+        android:id="@+id/edit_comentar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="0.77"
+        android:ems="10"
+        android:hint="@string/hint_comentario"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/but_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="@string/enviar_comentario" />
+</LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/but_accept"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/edit_store" />
+            android:text="@string/accept" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/but_remove"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

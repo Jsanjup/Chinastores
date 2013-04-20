@@ -76,8 +76,11 @@ public class Store {
 		this.nval = nval;
 	}
 	
-	public void valorar(){
+	public void valorar(int valoracion){
+		double total = nval*val;
+		total += valoracion;
 		nval++;
+		val=total/nval;		
 	}
 
 	public double getVal() {
