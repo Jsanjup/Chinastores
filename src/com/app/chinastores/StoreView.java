@@ -91,7 +91,6 @@ public class StoreView extends Activity {
             info.setText(note.getString(
                     note.getColumnIndexOrThrow(StoresDbAdapter.KEY_INFO)));
             String val =note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_VALOR));
-            Log.w("bbdd", val);
             float a= Float.parseFloat(val);
             valoracion.setRating(a);
             String s=note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_CONFIRMED));

@@ -46,7 +46,6 @@ public class MainActivity extends Activity {
         list.setOnItemClickListener(new OnItemClickListener(){
 
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-            	Log.w("itemclick", "id:"+id + "  posicion: "+ position );
                verItem(position, id);
             }
         });
@@ -59,7 +58,6 @@ public class MainActivity extends Activity {
         // Get all of the rows from the database and create the item list
         Cursor mNotesCursor = mDbHelper.fetchAllNotes();
 
-    	Log.w("tabla de datos: ", mNotesCursor.toString());
         // Now create a simple cursor adapter and set it to display
         stores =  new CustomCursorAdapter(this, mNotesCursor, (int) distancia());
        list.setAdapter(stores);
@@ -117,12 +115,10 @@ public class MainActivity extends Activity {
             ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.add(0, DELETE_ID, 0, R.string.menu_delete);
-    	Log.w("itemclick", "info :" +menuInfo.toString());
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-    	Log.w("itemclick", "id:"+DELETE_ID);
         switch(item.getItemId()) {
             case DELETE_ID:
                 delete(item);

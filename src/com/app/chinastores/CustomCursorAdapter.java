@@ -27,7 +27,7 @@ public class CustomCursorAdapter extends CursorAdapter {
         // we need to tell the adapters, how each item will look
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View retView = inflater.inflate(R.layout.notes_row, parent, false);
- 
+        bindView(retView, context, cursor);
         return retView;
     }
  
@@ -37,15 +37,13 @@ public class CustomCursorAdapter extends CursorAdapter {
         // that means, take the data from the cursor and put it in views
  
         TextView direccion= (TextView) view.findViewById(R.id.direccion);
-        direccion.setText(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_ADDRESS)).toString());
-    	Log.w("bbdd",  direccion.getText().toString());
+        direccion.setText(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_ADDRESS)));
     	
         TextView distancia =(TextView) view.findViewById(R.id.row_distancia);
         direccion.setText(""+distancia);
         ImageView confirmed = (ImageView) view.findViewById(R.id.row_tick);
         confirmed.setVisibility(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_CONFIRMED))));        
         RatingBar valoracion = (RatingBar) view.findViewById(R.id.row_valoracion);
-       // if()valoracion.setActivated(false);
-        valoracion.setRating((float) Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_VALOR))));
+        valoracion.setRating(Float.parseFloat(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_VALOR))));
     }
 }

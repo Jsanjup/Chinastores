@@ -43,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:numStars="5"
-            android:isIndicator="true" />
+            android:isIndicator="true" 
+            android:clickable="false"/>
 
     </LinearLayout>
 

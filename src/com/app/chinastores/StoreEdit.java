@@ -60,7 +60,7 @@ public class StoreEdit extends Activity {
         setTitle(R.string.edit_store);
         confirmed=false;
         direccion = (EditText) findViewById(R.id.edit_title);
-        confirmar = (CheckBox) findViewById(R.id.checkBox);
+        confirmar = (CheckBox) findViewById(R.id.edit_confirm);
         tipo= (ToggleButton) findViewById(R.id.edit_tipo);
         valorar = (RatingBar) findViewById(R.id.edit_valoracion);
         foto = (Button) findViewById(R.id.load_foto);
@@ -92,7 +92,7 @@ public class StoreEdit extends Activity {
         	}
 
         });
-        /*
+        
         confirmar.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton button, boolean isChecked) {
@@ -102,7 +102,7 @@ public class StoreEdit extends Activity {
                 }
             }
 
-        });*/
+        });
         
         valorar.setOnRatingBarChangeListener(new OnRatingBarChangeListener(){
 
@@ -155,7 +155,6 @@ public class StoreEdit extends Activity {
     	char type = 'A';
     	if(tipo.isChecked()) type='B';
         String title = direccion.getText().toString();
-    	Log.w("bbdd", title );
         float valorando =  valorar.getRating();
         int nvalor = 0;
         String foto = "@drawable/store";
@@ -165,7 +164,6 @@ public class StoreEdit extends Activity {
             long id = mDbHelper.createNote(type, title, valorando, foto, informacion, comentario, confirmed);
             if (id > 0) {
                 mRowId = id;
-            	Log.w("rowid", ""+mRowId );
             }
         } else {
             mDbHelper.updateNote(mRowId, type, title, valorando, nvalor, foto, informacion, comentario, confirmed);
