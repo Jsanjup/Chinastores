@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -33,12 +34,16 @@ public class MainActivity extends Activity {
     private ListView list;
     private CustomCursorAdapter stores;
     private boolean bazar;
+    private Button alim;
+    private Button baz;
 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bazar=false;
+        alim= (Button) findViewById(R.id.ButtonA);
+        baz= (Button) findViewById(R.id.ButtonA);
         setContentView(R.layout.activity_main);
         mDbHelper = new StoresDbAdapter(this);
         mDbHelper.open();
@@ -49,18 +54,40 @@ public class MainActivity extends Activity {
                verItem(position, id);
             }
         });
-
-        fillData();
+        alim.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	bazar=false;
+                fillData(bazar);
+            }
+        });
+        baz.setOnClickListener( new View.OnClickListener() {
+            public void onClick(View v) {
+             bazar=true;
+             fillData(bazar);
+            }
+        });
+        
+        fillData(bazar);
         registerForContextMenu(list);
     }
 
-    private void fillData() {
+    private void fillData(boolean bazar) {
         // Get all of the rows from the database and create the item list
         Cursor mNotesCursor = mDbHelper.fetchAllNotes();
 
         // Now create a simple cursor adapter and set it to display
-        stores =  new CustomCursorAdapter(this, mNotesCursor, (int) distancia());
+       stores =  new CustomCursorAdapter(this, mNotesCursor, (int) distancia(), bazar);
        list.setAdapter(stores);
+       Button alim= (Button) findViewById(R.id.ButtonA);
+       Button baz= (Button) findViewById(R.id.ButtonA);
+       if(bazar){
+    	   baz.setClickable(false);
+    	   alim.setClickable(true);    	   
+       }
+       else{
+    	   baz.setClickable(true);
+    	   alim.setClickable(false);
+       }
     }
 
     @Override
@@ -130,7 +157,8 @@ public class MainActivity extends Activity {
     private void delete(MenuItem item){
     	AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         mDbHelper.deleteNote(info.id);
-        fillData();
+        Log.w("borrar", "borrando " + info.id);
+        fillData(bazar);
     }
     
     private void createNote() {
@@ -153,7 +181,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        fillData();
+        fillData(bazar);
     }
     
     public double distancia(){

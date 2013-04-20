@@ -7,7 +7,7 @@ public class InfoActivity extends Activity{
 
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.store_view);
+        setContentView(R.layout.app_info);
         setTitle(R.string.menu_help);
 	}
 }

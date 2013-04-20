@@ -15,11 +15,14 @@ import android.widget.TextView;
  
 public class CustomCursorAdapter extends CursorAdapter {
  
-	int distance =0;
+	private int distance;
 	private LayoutInflater inflater;
-    public CustomCursorAdapter(Context context, Cursor c, int distance) {
+	private boolean bazar;
+	
+    public CustomCursorAdapter(Context context, Cursor c, int distance, boolean bazar){
        super(context, c,0);
        this.distance=distance;
+       this.bazar=bazar;
        inflater = LayoutInflater.from(context);
     }
  
@@ -36,15 +39,24 @@ public class CustomCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         // here we are setting our data
         // that means, take the data from the cursor and put it in views
- 
-        TextView direccion= (TextView) view.findViewById(R.id.direccion);
-        direccion.setText(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_ADDRESS)));
-    	
-        TextView distancia =(TextView) view.findViewById(R.id.row_distancia);
-        distancia.setText(""+distance);
-        ImageView confirmed = (ImageView) view.findViewById(R.id.row_tick);
-        confirmed.setVisibility(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_CONFIRMED))));        
-        RatingBar valoracion = (RatingBar) view.findViewById(R.id.row_valoracion);
-        valoracion.setRating(Float.parseFloat(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_VALOR))));
+		
+		if(bazar){
+		aux(view, cursor, 'B');
+		}else aux(view, cursor, 'A');
     }
+		
+		private void aux(View view, Cursor cursor, char clase){
+			char tipo = cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_TYPE)).charAt(0);
+			if(tipo ==clase){
+	        TextView direccion= (TextView) view.findViewById(R.id.direccion);
+	        direccion.setText(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_ADDRESS)));
+	    	
+	        TextView distancia =(TextView) view.findViewById(R.id.row_distancia);
+	        distancia.setText(""+distance);
+	        ImageView confirmed = (ImageView) view.findViewById(R.id.row_tick);
+	        confirmed.setVisibility(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_CONFIRMED))));        
+	        RatingBar valoracion = (RatingBar) view.findViewById(R.id.row_valoracion);
+	        valoracion.setRating(Float.parseFloat(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_VALOR))));
+			}
+		}
 }

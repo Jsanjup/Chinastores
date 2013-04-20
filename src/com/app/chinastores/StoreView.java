@@ -70,7 +70,6 @@ public class StoreView extends Activity {
         	public void onClick(View view) {
         	    setResult(RESULT_OK);
                 editar();
-        	    finish();
         	}
 
         });
