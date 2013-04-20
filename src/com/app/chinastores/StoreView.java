@@ -37,7 +37,7 @@ public class StoreView extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.store_view);
-        //setTitle(R.string.edit_store);
+        setTitle(R.string.view_store);
 
         direccion = (TextView) findViewById(R.id.title);
         confirmed = (ImageView) findViewById(R.id.imageconfirmed);

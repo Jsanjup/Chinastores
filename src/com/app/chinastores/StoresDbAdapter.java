@@ -164,6 +164,16 @@ public class StoresDbAdapter {
         return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TYPE,
                 KEY_ADDRESS, KEY_VALOR, KEY_NVALOR, KEY_FOTO, KEY_INFO, KEY_COMENTS, KEY_CONFIRMED}, null, null, null, null, null);
     }
+    /**
+     * Return a Cursor over the list of all notes in the database
+     * 
+     * @return Cursor over all oneType note
+     */
+    public Cursor fetchByType(boolean type) {
+    	
+        return mDb.query(type, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TYPE,
+                KEY_ADDRESS, KEY_VALOR, KEY_NVALOR, KEY_FOTO, KEY_INFO, KEY_COMENTS, KEY_CONFIRMED},  KEY_TYPE + "=" + 'A',null, null, null, null, null);
+    }
 
     /**
      * Return a Cursor positioned at the note that matches the given rowId
@@ -185,7 +195,26 @@ public class StoresDbAdapter {
         return mCursor;
 
     }
+    /**
+     * Return a Cursor positioned at the commets that matches the given rowId
+     * 
+     * @param rowId id of note to retrieve
+     * @return Cursor positioned to matching note, if found
+     * @throws SQLException if note could not be found/retrieved
+     */
+    public String[] fetchComments(long rowId) throws SQLException {
+    	
 
+        Cursor mCursor = mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_COMENTS}, KEY_ROWID + "=" + rowId, null,
+                    null, null, null, null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+         String[] comentarios = mCursor.getString(mCursor.getColumnIndex(StoresDbAdapter.KEY_COMENTS)).split("/n");
+        
+        return comentarios ;
+
+    }
     /**
      * Update the note using the details provided. The note to be updated is
      * specified using the rowId, and it is altered to use the title and body
@@ -209,6 +238,7 @@ public class StoresDbAdapter {
             initialValues.put(KEY_CONFIRMED, CONFIRMED);
         else 
             initialValues.put(KEY_CONFIRMED, NOTCONFIRMED);
+
         return mDb.update(DATABASE_TABLE, initialValues, KEY_ROWID + "=" + rowId, null) > 0;
     }
 }

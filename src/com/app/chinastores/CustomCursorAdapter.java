@@ -27,27 +27,19 @@ public class CustomCursorAdapter extends CursorAdapter {
     }
  
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+    public View newView(Context context, Cursor cursor1, ViewGroup parent) {
         // when the view will be created for first time,
         // we need to tell the adapters, how each item will look
+    	StoresDbAdapter mDbHelper = new StoresDbAdapter(context);
+        mDbHelper.open();
+    	Cursor cursor = mDbHelper.fetchByType(bazar);
         View retView = inflater.inflate(R.layout.notes_row, parent, false);
         bindView(retView, context, cursor);
         return retView;
     }
  
 	@Override
-    public void bindView(View view, Context context, Cursor cursor) {
-        // here we are setting our data
-        // that means, take the data from the cursor and put it in views
-		
-		if(bazar){
-		aux(view, cursor, 'B');
-		}else aux(view, cursor, 'A');
-    }
-		
-		private void aux(View view, Cursor cursor, char clase){
-			char tipo = cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_TYPE)).charAt(0);
-			if(tipo ==clase){
+    public void bindView(View view, Context context, Cursor cursor) {        
 	        TextView direccion= (TextView) view.findViewById(R.id.direccion);
 	        direccion.setText(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_ADDRESS)));
 	    	
@@ -57,6 +49,6 @@ public class CustomCursorAdapter extends CursorAdapter {
 	        confirmed.setVisibility(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_CONFIRMED))));        
 	        RatingBar valoracion = (RatingBar) view.findViewById(R.id.row_valoracion);
 	        valoracion.setRating(Float.parseFloat(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_VALOR))));
-			}
+		
 		}
 }

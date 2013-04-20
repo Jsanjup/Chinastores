@@ -42,9 +42,9 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bazar=false;
-        alim= (Button) findViewById(R.id.ButtonA);
-        baz= (Button) findViewById(R.id.ButtonA);
         setContentView(R.layout.activity_main);
+        alim= (Button) findViewById(R.id.ButtonA);
+        baz= (Button) findViewById(R.id.ButtonB);
         mDbHelper = new StoresDbAdapter(this);
         mDbHelper.open();
         list= (ListView) findViewById(R.id.list);
@@ -57,12 +57,14 @@ public class MainActivity extends Activity {
         alim.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             	bazar=false;
+            	Log.w("alimentacion", ""+bazar );
                 fillData(bazar);
             }
         });
         baz.setOnClickListener( new View.OnClickListener() {
             public void onClick(View v) {
              bazar=true;
+             Log.w("bazar", "" +bazar );
              fillData(bazar);
             }
         });
@@ -79,7 +81,7 @@ public class MainActivity extends Activity {
        stores =  new CustomCursorAdapter(this, mNotesCursor, (int) distancia(), bazar);
        list.setAdapter(stores);
        Button alim= (Button) findViewById(R.id.ButtonA);
-       Button baz= (Button) findViewById(R.id.ButtonA);
+       Button baz= (Button) findViewById(R.id.ButtonB);
        if(bazar){
     	   baz.setClickable(false);
     	   alim.setClickable(true);    	   
