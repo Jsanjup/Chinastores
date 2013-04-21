@@ -68,7 +68,6 @@ public class StoreEdit extends Activity {
         comentar = (EditText) findViewById(R.id.edit_comentar);
         send = (Button) findViewById(R.id.but_send);
         mDbHelper = new StoresDbAdapter(this);
-        mDbHelper.open();  
         accept = (Button) findViewById(R.id.but_accept);
         remove = (Button) findViewById(R.id.but_remove);
         
@@ -99,6 +98,7 @@ public class StoreEdit extends Activity {
                 if (isChecked){
                    confirmed=true;
                    saveState(confirmed);
+                   populateFields();
                 }
             }
 
@@ -118,6 +118,8 @@ public class StoreEdit extends Activity {
     
     private void populateFields() {
         if (mRowId != null) {
+
+            mDbHelper.open();
             Cursor note = mDbHelper.fetchNote(mRowId);
             direccion.setText(note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_ADDRESS)));
             info.setText(note.getString(
@@ -140,7 +142,9 @@ public class StoreEdit extends Activity {
             char type = note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_TYPE)).charAt(0);
             if (type=='B')  tipo.setChecked(true);
             else tipo.setChecked(false);
+            mDbHelper.close();
         }
+       
     }
     /**
     public float valorar(float newval){
@@ -176,6 +180,8 @@ public class StoreEdit extends Activity {
         String foto = "@drawable/store";
         String informacion= info.getText().toString();
         String comentario = comentar.getText().toString();
+
+        mDbHelper.open();
         if (mRowId == null) {
             long id = mDbHelper.createNote(type, title, valorando, foto, informacion, comentario, confirmed);
             if (id > 0) {
@@ -184,5 +190,7 @@ public class StoreEdit extends Activity {
         } else {
             mDbHelper.updateNote(mRowId, type, title, valorando, nvalor, foto, informacion, comentario, confirmed);
         }
+        mDbHelper.close();
+        
     }
 }

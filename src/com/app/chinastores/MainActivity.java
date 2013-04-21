@@ -16,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class MainActivity extends Activity {
@@ -28,7 +27,8 @@ public class MainActivity extends Activity {
     private static final int MAPA_ID= INSERT_ID+1;
     private static final int HELP_ID= MAPA_ID+1;
     private static final int EXIT_ID= HELP_ID+1;
-    private static final int DELETE_ID = Menu.FIRST + 1;
+    private static final int DELETE_ID = EXIT_ID + 1;
+    private static final int EDIT_ID = DELETE_ID+1;
 
     private StoresDbAdapter mDbHelper;
     private ListView list;
@@ -45,27 +45,30 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         alim= (Button) findViewById(R.id.ButtonA);
         baz= (Button) findViewById(R.id.ButtonB);
+        alim.setEnabled(bazar);
+        baz.setEnabled(!bazar);
         mDbHelper = new StoresDbAdapter(this);
-        mDbHelper.open();
         list= (ListView) findViewById(R.id.list);
         list.setOnItemClickListener(new OnItemClickListener(){
 
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-               verItem(position, id);
+               verItem(position, id, false);
             }
         });
         alim.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             	bazar=false;
-            	Log.w("alimentacion", ""+bazar );
                 fillData(bazar);
+                baz.setEnabled(true);
+                alim.setEnabled(false);
             }
         });
         baz.setOnClickListener( new View.OnClickListener() {
             public void onClick(View v) {
              bazar=true;
-             Log.w("bazar", "" +bazar );
              fillData(bazar);
+             alim.setEnabled(true);
+             baz.setEnabled(false);
             }
         });
         
@@ -75,21 +78,13 @@ public class MainActivity extends Activity {
 
     private void fillData(boolean bazar) {
         // Get all of the rows from the database and create the item list
-        Cursor mNotesCursor = mDbHelper.fetchAllNotes();
+    	mDbHelper.open();
+        Cursor mNotesCursor = mDbHelper.fetchByType(bazar);
 
         // Now create a simple cursor adapter and set it to display
        stores =  new CustomCursorAdapter(this, mNotesCursor, (int) distancia(), bazar);
        list.setAdapter(stores);
-       Button alim= (Button) findViewById(R.id.ButtonA);
-       Button baz= (Button) findViewById(R.id.ButtonB);
-       if(bazar){
-    	   baz.setClickable(false);
-    	   alim.setClickable(true);    	   
-       }
-       else{
-    	   baz.setClickable(true);
-    	   alim.setClickable(false);
-       }
+       mDbHelper.close();
     }
 
     @Override
@@ -135,7 +130,7 @@ public class MainActivity extends Activity {
         }
     
     public void exit(){
-    	Intent i= new Intent(Intent.ACTION_MAIN);finish();
+    	finish();
     }
     
     
@@ -144,6 +139,7 @@ public class MainActivity extends Activity {
             ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.add(0, DELETE_ID, 0, R.string.menu_delete);
+        menu.add(0, EDIT_ID, 0, R.string.edit_store);
     }
 
     @Override
@@ -152,14 +148,19 @@ public class MainActivity extends Activity {
             case DELETE_ID:
                 delete(item);
                 return true;
+            case EDIT_ID:
+            	AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+            	verItem(0, info.id, true);
+            	return true;
         }
-        return super.onContextItemSelected(item);
+        return false;
     }
     
     private void delete(MenuItem item){
     	AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+    	mDbHelper.open();
         mDbHelper.deleteNote(info.id);
-        Log.w("borrar", "borrando " + info.id);
+        mDbHelper.close();
         fillData(bazar);
     }
     
@@ -171,14 +172,16 @@ public class MainActivity extends Activity {
 
     
     protected void onItemClick(ListView list, View v, int position, long id) {
-        verItem(position, id);
+        verItem(position, id, false);
     }
     
-    public void verItem(int position, long id){
+    public void verItem(int position, long id, boolean edit){
             Intent i = new Intent(this, StoreView.class);
+            if (edit) i=new Intent(this, StoreEdit.class);
             i.putExtra(StoresDbAdapter.KEY_ROWID, id);
             startActivityForResult(i, ACTIVITY_READ);
         }
+
     
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {

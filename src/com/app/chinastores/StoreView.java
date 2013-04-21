@@ -10,11 +10,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class StoreView extends Activity {
 
@@ -51,7 +53,6 @@ public class StoreView extends Activity {
         view_all = (Button) findViewById(R.id.but_ver);
         
         mDbHelper = new StoresDbAdapter(this);
-        mDbHelper.open();  
         edit = (Button) findViewById(R.id.but_edit);
         valoracion.setMax(100);
 
@@ -73,6 +74,16 @@ public class StoreView extends Activity {
         	}
 
         });
+        confirmar.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+                if (isChecked){
+                   confirmar();
+                   populateFields();
+                }
+            }
+
+        });
         
     }
     
@@ -83,6 +94,7 @@ public class StoreView extends Activity {
     }
     
     private void populateFields() {
+    	mDbHelper.open();
         if (mRowId != null) {
             Cursor note = mDbHelper.fetchNote(mRowId);
             direccion.setText(note.getString(
@@ -106,24 +118,48 @@ public class StoreView extends Activity {
             if (type=='B')  tipo.setChecked(true);
             else tipo.setChecked(false);
         }
+        mDbHelper.open();
     }
     
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //saveState();
         outState.putSerializable(StoresDbAdapter.KEY_ROWID, mRowId);
+
     }
     
     protected void onPause() {
         super.onPause();
+
         //saveState();
     }
     
+    protected void onStop() {
+        super.onStop();
+        //saveState();
+    }
     protected void onResume() {
         super.onResume();
         populateFields();
     }
     
-    private void saveState() {
+    private void confirmar() {
+    	mDbHelper.open();
+    	char type = 'A';
+    	if(tipo.isChecked()) type='B';
+        String title = direccion.getText().toString();
+        float valorando =  valoracion.getRating();
+        int nvalor = 0;
+        String foto = "@drawable/store";
+        String informacion= info.getText().toString();
+        String comentario = comentar.getText().toString();
+
+        mDbHelper.open();
+        if (mRowId == null) {
+            return;
+        } else {
+            mDbHelper.updateNote(mRowId, type, title, valorando, nvalor, foto, informacion, comentario, true);
+        }
+        mDbHelper.close();
     }
 }

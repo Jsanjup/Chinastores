@@ -27,22 +27,22 @@ public class CustomCursorAdapter extends CursorAdapter {
     }
  
     @Override
-    public View newView(Context context, Cursor cursor1, ViewGroup parent) {
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
         // when the view will be created for first time,
         // we need to tell the adapters, how each item will look
     	StoresDbAdapter mDbHelper = new StoresDbAdapter(context);
         mDbHelper.open();
-    	Cursor cursor = mDbHelper.fetchByType(bazar);
         View retView = inflater.inflate(R.layout.notes_row, parent, false);
         bindView(retView, context, cursor);
+        mDbHelper.close();
         return retView;
     }
  
 	@Override
     public void bindView(View view, Context context, Cursor cursor) {        
+			
 	        TextView direccion= (TextView) view.findViewById(R.id.direccion);
-	        direccion.setText(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_ADDRESS)));
-	    	
+	        direccion.setText(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_ADDRESS)));	    	
 	        TextView distancia =(TextView) view.findViewById(R.id.row_distancia);
 	        distancia.setText(""+distance);
 	        ImageView confirmed = (ImageView) view.findViewById(R.id.row_tick);

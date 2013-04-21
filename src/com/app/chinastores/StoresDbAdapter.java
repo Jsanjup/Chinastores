@@ -169,10 +169,21 @@ public class StoresDbAdapter {
      * 
      * @return Cursor over all oneType note
      */
-    public Cursor fetchByType(boolean type) {
+    public Cursor fetchByType(boolean type) throws SQLException {
+    	String[] tip={""+'A'};
+    	if(type) tip=new String[]{""+'B'};
+    	Cursor mCursor=null;
+    	try{
+        mCursor= mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TYPE,
+                KEY_ADDRESS, KEY_VALOR, KEY_CONFIRMED},  KEY_TYPE + "=?", tip, null, null, null);
+    	}catch(Exception e){
+    		Log.w("cursor", "ha saltado excepcion");
+    	}
     	
-        return mDb.query(type, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TYPE,
-                KEY_ADDRESS, KEY_VALOR, KEY_NVALOR, KEY_FOTO, KEY_INFO, KEY_COMENTS, KEY_CONFIRMED},  KEY_TYPE + "=" + 'A',null, null, null, null, null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();  
+        }
+        return mCursor;
     }
 
     /**
@@ -196,7 +207,7 @@ public class StoresDbAdapter {
 
     }
     /**
-     * Return a Cursor positioned at the commets that matches the given rowId
+     * Return a Cursor positioned at the comments that matches the given rowId
      * 
      * @param rowId id of note to retrieve
      * @return Cursor positioned to matching note, if found
@@ -211,7 +222,6 @@ public class StoresDbAdapter {
             mCursor.moveToFirst();
         }
          String[] comentarios = mCursor.getString(mCursor.getColumnIndex(StoresDbAdapter.KEY_COMENTS)).split("/n");
-        
         return comentarios ;
 
     }
