@@ -59,7 +59,7 @@ public class MainActivity extends Activity implements LocationListener{
         alim= (Button) findViewById(R.id.ButtonA);
         baz= (Button) findViewById(R.id.ButtonB);
         alim.setEnabled(bazar);
-        baz.setEnabled(true);
+        baz.setEnabled(!bazar);
         mDbHelper = new StoresDbAdapter(this);
         list= (ListView) findViewById(R.id.list);
         list.setOnItemClickListener(new OnItemClickListener(){
@@ -92,7 +92,7 @@ public class MainActivity extends Activity implements LocationListener{
     private void iniciarLocalizador(){
     	// Get the location manager
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		// Define the criteria how to select the locatiin provider -> use
+		// Define the criteria how to select the location provider -> use
 		// default
 		Criteria criteria = new Criteria();
 		provider = locationManager.getBestProvider(criteria, false);
