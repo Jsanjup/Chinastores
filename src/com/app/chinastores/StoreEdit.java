@@ -49,6 +49,9 @@ public class StoreEdit extends Activity {
     private Button remove;
     private int nValor;
     private boolean confirmed;
+    private char type;
+    
+    private Store store;
     
     private Long mRowId;
     private StoresDbAdapter mDbHelper;
@@ -86,8 +89,21 @@ public class StoreEdit extends Activity {
 
         	public void onClick(View view) {
         	    setResult(RESULT_OK);
-        	    saveState(confirmed);
+				store.valorar(valorar.getRating());
+        	    saveState();
         	    finish();
+        	}
+
+        });
+        
+        tipo.setOnClickListener(new View.OnClickListener() {
+
+        	public void onClick(View view) {
+        	    setResult(RESULT_OK);
+        	    if(tipo.isChecked()) type='B';
+        	    else type='A';
+        	    store.setType(type);
+        	    saveState();
         	}
 
         });
@@ -96,68 +112,51 @@ public class StoreEdit extends Activity {
             @Override
             public void onCheckedChanged(CompoundButton button, boolean isChecked) {
                 if (isChecked){
-                   confirmed=true;
-                   saveState(confirmed);
+                   store.confirmar();
+                   saveState();
                    populateFields();
                 }
             }
 
         });
-        
+        /**
         valorar.setOnRatingBarChangeListener(new OnRatingBarChangeListener(){
 
 			@Override
 			public void onRatingChanged(RatingBar valorar, float valoracion, boolean fromuser) {
-				// TODO Auto-generated method stub
-				
+				store.valorar(valoracion);
+				saveState();
+				populateFields();
 			}
         	
-        });
+        });*/
         
     }
     
     private void populateFields() {
+    	mDbHelper.open();
         if (mRowId != null) {
-
-            mDbHelper.open();
-            Cursor note = mDbHelper.fetchNote(mRowId);
-            direccion.setText(note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_ADDRESS)));
-            info.setText(note.getString(
-                    note.getColumnIndexOrThrow(StoresDbAdapter.KEY_INFO)));
-            String val =note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_VALOR));
-            float a= Float.parseFloat(val);
-            valorar.setRating(a);
-            String s=note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_CONFIRMED));
-            int confirmado=Integer.parseInt(s);
-             nValor= Integer.parseInt(note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_CONFIRMED)));
-
-            Log.w("cargar confirmacion", ""+(confirmado == StoresDbAdapter.CONFIRMED));
-            
-            if (confirmado == StoresDbAdapter.CONFIRMED){
-            	confirmed=true;
-            	confirmar.setVisibility(View.INVISIBLE);
-            } else{confirmar.setVisibility(View.VISIBLE);
-            confirmed=false;
+            store= mDbHelper.getStore(mRowId);
+            direccion.setText(store.getAddress());
+            info.setText(store.getInfo());
+            valorar.setRating(store.getVal());
+            if (store.isConfirmed()){
+            	confirmar.setVisibility(View.INVISIBLE);            	
             }
-            char type = note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_TYPE)).charAt(0);
+            else{
+            	confirmar.setVisibility(View.VISIBLE);
+            }
+            char type = store.getType();
             if (type=='B')  tipo.setChecked(true);
             else tipo.setChecked(false);
-            mDbHelper.close();
-        }
+        } else createStore();
+        mDbHelper.close();
        
     }
-    /**
-    public float valorar(float newval){
-		float total = nval*val;
-		total += newval;
-		nval++;
-		val=total/nval;	
-		return val;
-	}*/
     
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        saveState(confirmed);
+        saveState();
         outState.putSerializable(StoresDbAdapter.KEY_ROWID, mRowId);
     }
     
@@ -170,27 +169,22 @@ public class StoreEdit extends Activity {
         populateFields();
     }
     
-    private void saveState(boolean confirmed) {
-    	char type = 'A';
-    	if(tipo.isChecked()) type='B';
-        String title = direccion.getText().toString();
-        float valorando =  valorar.getRating();
-        int nvalor = 0;
-        Log.w("confirmar", ""+confirmed);
-        String foto = "@drawable/store";
-        String informacion= info.getText().toString();
-        String comentario = comentar.getText().toString();
-
+    private void saveState() {    	
         mDbHelper.open();
         if (mRowId == null) {
-            long id = mDbHelper.createNote(type, title, valorando, foto, informacion, comentario, confirmed);
-            if (id > 0) {
-                mRowId = id;
-            }
+        	createStore();
         } else {
-            mDbHelper.updateNote(mRowId, type, title, valorando, nvalor, foto, informacion, comentario, confirmed);
+        	store.setAddress(direccion.getText().toString());
+            store.setFoto("@drawable/store");
+            store.setInfo(info.getText().toString());
+            store.addComent(comentar.getText().toString());
+            mDbHelper.updateNote(mRowId, store);
         }
         mDbHelper.close();
-        
     }
+	private void createStore(){
+		store = new Store(type, direccion.getText().toString(), valorar.getRating(), info.getText().toString());
+		long id = mDbHelper.createStore(store);
+		if (id > 0) mRowId = id;
+		}
 }

@@ -34,6 +34,7 @@ public class StoreView extends Activity {
     private static final int ACTIVITY_CREATE=1;
     private Long mRowId;
     private StoresDbAdapter mDbHelper;
+    private Store store;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,6 @@ public class StoreView extends Activity {
         
         mDbHelper = new StoresDbAdapter(this);
         edit = (Button) findViewById(R.id.but_edit);
-        valoracion.setMax(100);
 
         mRowId = (savedInstanceState == null) ? null :
             (Long) savedInstanceState.getSerializable(StoresDbAdapter.KEY_ROWID);
@@ -96,17 +96,11 @@ public class StoreView extends Activity {
     private void populateFields() {
     	mDbHelper.open();
         if (mRowId != null) {
-            Cursor note = mDbHelper.fetchNote(mRowId);
-            direccion.setText(note.getString(
-                        note.getColumnIndexOrThrow(StoresDbAdapter.KEY_ADDRESS)));
-            info.setText(note.getString(
-                    note.getColumnIndexOrThrow(StoresDbAdapter.KEY_INFO)));
-            String val =note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_VALOR));
-            float a= Float.parseFloat(val);
-            valoracion.setRating(a);
-            String s=note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_CONFIRMED));
-            int confirmado=Integer.parseInt(s);
-            if (confirmado == StoresDbAdapter.CONFIRMED){
+            store= mDbHelper.getStore(mRowId);
+            direccion.setText(store.getAddress());
+            info.setText(store.getInfo());
+            valoracion.setRating(store.getVal());
+            if (store.isConfirmed()){
             	confirmed.setVisibility(View.VISIBLE);
             	confirmar.setVisibility(View.INVISIBLE);            	
             }
@@ -114,11 +108,11 @@ public class StoreView extends Activity {
             	confirmed.setVisibility(View.INVISIBLE);
             	confirmar.setVisibility(View.VISIBLE);
             }
-            char type = note.getString(note.getColumnIndexOrThrow(StoresDbAdapter.KEY_TYPE)).charAt(0);
+            char type = store.getType();
             if (type=='B')  tipo.setChecked(true);
             else tipo.setChecked(false);
-        }
-        mDbHelper.open();
+        } 
+        mDbHelper.close();
     }
     
     protected void onSaveInstanceState(Bundle outState) {
@@ -144,21 +138,12 @@ public class StoreView extends Activity {
     }
     
     private void confirmar() {
-    	mDbHelper.open();
-    	char type = 'A';
-    	if(tipo.isChecked()) type='B';
-        String title = direccion.getText().toString();
-        float valorando =  valoracion.getRating();
-        int nvalor = 0;
-        String foto = "@drawable/store";
-        String informacion= info.getText().toString();
-        String comentario = comentar.getText().toString();
-
+    	store.confirmar();
         mDbHelper.open();
         if (mRowId == null) {
             return;
         } else {
-            mDbHelper.updateNote(mRowId, type, title, valorando, nvalor, foto, informacion, comentario, true);
+            mDbHelper.updateNote(mRowId, store);
         }
         mDbHelper.close();
     }

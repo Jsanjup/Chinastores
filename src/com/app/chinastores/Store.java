@@ -5,25 +5,28 @@ public class Store {
 	private String address;
 	private double lat;
 	private double lon;
-	private double val;
-	private double nval;
+	private float val;
+	private int nval;
 	private String foto;
 	private String info;
 	private String comments;
 	private boolean confirmed;
 	private final static String icon= "@drawable/icon";
+	private double distancia;
 	
-	public Store(char type, String address, double val, String foto, String info, String comments){
+	public Store(char type, String address, float val,int numVal, String foto, String info, String comments, boolean confirmed){
 	setType(type);
 	setAddress(address);
 	setVal(val);
-	setNumval(0);
+	setNumval(numVal);
 	setFoto(foto);
 	setInfo(info);
 	setComments(comments);
+	this.confirmed= confirmed;
+	distancia = 0;
 	}
 	
-	public Store(char type, String address, double val, String info){
+	public Store(char type, String address, float val, String info){
 		setType(type);
 		setAddress(address);
 		setVal(val);
@@ -39,6 +42,10 @@ public class Store {
 
 	public void setConfirmed(boolean confirmed) {
 		this.confirmed = confirmed;
+	}
+	
+	public void confirmar(){
+		this.confirmed=true;
 	}
 
 	public String getComments() {
@@ -68,26 +75,26 @@ public class Store {
 		this.foto = foto;
 	}
 
-	public double getNumval() {
+	public int getNumval() {
 		return nval;
 	}
 
-	public void setNumval(double nval) {
+	public void setNumval(int nval) {
 		this.nval = nval;
 	}
 	
-	public void valorar(int valoracion){
-		double total = nval*val;
+	public void valorar(float valoracion){
+		float total = nval*val;
 		total += valoracion;
 		nval++;
 		val=total/nval;		
 	}
 
-	public double getVal() {
+	public float getVal() {
 		return val;
 	}
 
-	public void setVal(double val) {
+	public void setVal(float val) {
 		this.val = val;
 	}
 

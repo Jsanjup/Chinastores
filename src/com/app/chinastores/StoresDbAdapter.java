@@ -23,6 +23,9 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 /**
  * Simple notes database access helper class. Defines the basic CRUD operations
@@ -62,6 +65,7 @@ public class StoresDbAdapter {
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "stores";
     private static final int DATABASE_VERSION = 1;
+    public static final String SEP_COMENT ="_fin_coment_";
 
     private final Context mCtx;
 
@@ -125,11 +129,11 @@ public class StoresDbAdapter {
      * @param body the body of the note
      * @return rowId or -1 if failed
      */
-    public long createNote(char A, String address, float valor, String foto, String info, String coments, boolean confirmed) {
+    public long createNote(char A, String address, float valor,int nval, String foto, String info, String coments, boolean confirmed) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_TYPE, ""+A);
         initialValues.put(KEY_ADDRESS, address);
-        initialValues.put(KEY_VALOR, valor);
+        initialValues.put(KEY_VALOR, nval);
         initialValues.put(KEY_NVALOR, 0);
         initialValues.put(KEY_FOTO, foto);
         initialValues.put(KEY_INFO, info);
@@ -141,6 +145,10 @@ public class StoresDbAdapter {
         
 
         return mDb.insert(DATABASE_TABLE, null, initialValues);
+    }
+    
+    public long createStore(Store store){
+    	return createNote(store.getType(), store.getAddress(),store.getVal(),store.getNumval(),store.getFoto(),store.getInfo(),store.getComments(), store.isConfirmed());  
     }
 
     /**
@@ -206,6 +214,21 @@ public class StoresDbAdapter {
         return mCursor;
 
     }
+    
+    public Store getStore(long rowId) throws SQLException {
+
+        Cursor mCursor = fetchNote(rowId);
+        char tipo = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_TYPE)).charAt(0);
+        String address = mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_ADDRESS));	    	
+        boolean confirmed =(Integer.parseInt(mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_CONFIRMED)))==CONFIRMED);
+        float valoracion= Float.parseFloat(mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_VALOR)));
+        int nvaloraciones= Integer.parseInt(mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_NVALOR)));
+        String info = mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_INFO));
+        String coments = mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_COMENTS));
+        String foto = mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_FOTO));
+        Store store = new Store(tipo, address, valoracion, nvaloraciones, foto, info, coments, confirmed );
+        return store;
+    }
     /**
      * Return a Cursor positioned at the comments that matches the given rowId
      * 
@@ -221,7 +244,7 @@ public class StoresDbAdapter {
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
-         String[] comentarios = mCursor.getString(mCursor.getColumnIndex(StoresDbAdapter.KEY_COMENTS)).split("/n");
+         String[] comentarios = mCursor.getString(mCursor.getColumnIndex(StoresDbAdapter.KEY_COMENTS)).split(SEP_COMENT);
         return comentarios ;
 
     }
@@ -250,5 +273,9 @@ public class StoresDbAdapter {
             initialValues.put(KEY_CONFIRMED, NOTCONFIRMED);
 
         return mDb.update(DATABASE_TABLE, initialValues, KEY_ROWID + "=" + rowId, null) > 0;
+    }
+    
+    public boolean updateNote(long rowId, Store store) {
+    	return updateNote(rowId, store.getType(), store.getAddress(),store.getVal(),store.getNumval(),store.getFoto(),store.getInfo(),store.getComments(), store.isConfirmed());  
     }
 }

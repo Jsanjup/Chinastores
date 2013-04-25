@@ -16,7 +16,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int cameraBearing=0x7f010001;
+        public static final int cameraBearing=0x7f010001;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -24,7 +24,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int cameraTargetLat=0x7f010002;
+        public static final int cameraTargetLat=0x7f010002;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -32,7 +32,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int cameraTargetLng=0x7f010003;
+        public static final int cameraTargetLng=0x7f010003;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -40,7 +40,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int cameraTilt=0x7f010004;
+        public static final int cameraTilt=0x7f010004;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -48,7 +48,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int cameraZoom=0x7f010005;
+        public static final int cameraZoom=0x7f010005;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -62,7 +62,7 @@ containing a value of this type.
 <tr><td><code>hybrid</code></td><td>4</td><td></td></tr>
 </table>
          */
-        public static int mapType=0x7f010000;
+        public static final int mapType=0x7f010000;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -70,7 +70,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uiCompass=0x7f010006;
+        public static final int uiCompass=0x7f010006;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -78,7 +78,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uiRotateGestures=0x7f010007;
+        public static final int uiRotateGestures=0x7f010007;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -86,7 +86,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uiScrollGestures=0x7f010008;
+        public static final int uiScrollGestures=0x7f010008;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -94,7 +94,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uiTiltGestures=0x7f010009;
+        public static final int uiTiltGestures=0x7f010009;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -102,7 +102,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uiZoomControls=0x7f01000a;
+        public static final int uiZoomControls=0x7f01000a;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -110,7 +110,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uiZoomGestures=0x7f01000b;
+        public static final int uiZoomGestures=0x7f01000b;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -118,7 +118,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int useViewLifecycle=0x7f01000c;
+        public static final int useViewLifecycle=0x7f01000c;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -126,7 +126,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int zOrderOnTop=0x7f01000d;
+        public static final int zOrderOnTop=0x7f01000d;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -135,163 +135,163 @@ containing a value of this type.
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static int activity_horizontal_margin=0x7f060000;
-        public static int activity_vertical_margin=0x7f060001;
+        public static final int activity_horizontal_margin=0x7f060000;
+        public static final int activity_vertical_margin=0x7f060001;
     }
     public static final class drawable {
-        public static int ic_launcher=0x7f020000;
-        public static int store=0x7f020001;
-        public static int tick=0x7f020002;
+        public static final int ic_launcher=0x7f020000;
+        public static final int store=0x7f020001;
+        public static final int tick=0x7f020002;
     }
     public static final class id {
-        public static int ButtonA=0x7f040006;
-        public static int ButtonB=0x7f040007;
-        public static int but_accept=0x7f040021;
-        public static int but_edit=0x7f04002d;
-        public static int but_enviar=0x7f04002b;
-        public static int but_remove=0x7f040022;
-        public static int but_send=0x7f040020;
-        public static int but_ver=0x7f04002c;
-        public static int checkBox=0x7f040025;
-        public static int comments=0x7f04000a;
-        public static int direccion=0x7f040015;
-        public static int editText1=0x7f040012;
-        public static int edit_comentar=0x7f04001f;
-        public static int edit_confirm=0x7f04001a;
-        public static int edit_info=0x7f04001e;
-        public static int edit_tipo=0x7f04001d;
-        public static int edit_title=0x7f040019;
-        public static int edit_valoracion=0x7f04001b;
-        public static int empty=0x7f040009;
-        public static int foto=0x7f040027;
-        public static int hybrid=0x7f040004;
-        public static int imageconfirmed=0x7f040024;
-        public static int info=0x7f040029;
-        public static int info_date=0x7f04000f;
-        public static int info_description=0x7f040010;
-        public static int info_develloped=0x7f04000c;
-        public static int info_develloppers=0x7f04000d;
-        public static int info_name=0x7f04000b;
-        public static int info_rights=0x7f040011;
-        public static int info_version=0x7f04000e;
-        public static int linearLayout1=0x7f040005;
-        public static int list=0x7f040008;
-        public static int load_foto=0x7f04001c;
-        public static int mainlayout=0x7f040013;
-        public static int mapview=0x7f040014;
-        public static int none=0x7f040000;
-        public static int normal=0x7f040001;
-        public static int row_distancia=0x7f040017;
-        public static int row_tick=0x7f040016;
-        public static int row_valoracion=0x7f040018;
-        public static int satellite=0x7f040002;
-        public static int terrain=0x7f040003;
-        public static int title=0x7f040023;
-        public static int ver_tipo=0x7f040028;
-        public static int ver_valoracion=0x7f040026;
-        public static int view_comentar=0x7f04002a;
+        public static final int ButtonA=0x7f040006;
+        public static final int ButtonB=0x7f040007;
+        public static final int but_accept=0x7f040021;
+        public static final int but_edit=0x7f04002d;
+        public static final int but_enviar=0x7f04002b;
+        public static final int but_remove=0x7f040022;
+        public static final int but_send=0x7f040020;
+        public static final int but_ver=0x7f04002c;
+        public static final int checkBox=0x7f040025;
+        public static final int comments=0x7f04000a;
+        public static final int direccion=0x7f040015;
+        public static final int editText1=0x7f040012;
+        public static final int edit_comentar=0x7f04001f;
+        public static final int edit_confirm=0x7f04001a;
+        public static final int edit_info=0x7f04001e;
+        public static final int edit_tipo=0x7f04001d;
+        public static final int edit_title=0x7f040019;
+        public static final int edit_valoracion=0x7f04001b;
+        public static final int empty=0x7f040009;
+        public static final int foto=0x7f040027;
+        public static final int hybrid=0x7f040004;
+        public static final int imageconfirmed=0x7f040024;
+        public static final int info=0x7f040029;
+        public static final int info_date=0x7f04000f;
+        public static final int info_description=0x7f040010;
+        public static final int info_develloped=0x7f04000c;
+        public static final int info_develloppers=0x7f04000d;
+        public static final int info_name=0x7f04000b;
+        public static final int info_rights=0x7f040011;
+        public static final int info_version=0x7f04000e;
+        public static final int linearLayout1=0x7f040005;
+        public static final int list=0x7f040008;
+        public static final int load_foto=0x7f04001c;
+        public static final int mainlayout=0x7f040013;
+        public static final int mapview=0x7f040014;
+        public static final int none=0x7f040000;
+        public static final int normal=0x7f040001;
+        public static final int row_distancia=0x7f040017;
+        public static final int row_tick=0x7f040016;
+        public static final int row_valoracion=0x7f040018;
+        public static final int satellite=0x7f040002;
+        public static final int terrain=0x7f040003;
+        public static final int title=0x7f040023;
+        public static final int ver_tipo=0x7f040028;
+        public static final int ver_valoracion=0x7f040026;
+        public static final int view_comentar=0x7f04002a;
     }
     public static final class layout {
-        public static int activity_main=0x7f030000;
-        public static int all_comments=0x7f030001;
-        public static int app_info=0x7f030002;
-        public static int comment_row=0x7f030003;
-        public static int map=0x7f030004;
-        public static int notes_row=0x7f030005;
-        public static int store_edit=0x7f030006;
-        public static int store_view=0x7f030007;
+        public static final int activity_main=0x7f030000;
+        public static final int all_comments=0x7f030001;
+        public static final int app_info=0x7f030002;
+        public static final int comment_row=0x7f030003;
+        public static final int map=0x7f030004;
+        public static final int notes_row=0x7f030005;
+        public static final int store_edit=0x7f030006;
+        public static final int store_view=0x7f030007;
     }
     public static final class string {
-        public static int accept=0x7f050018;
-        public static int action_settings=0x7f050012;
-        public static int app_name=0x7f050011;
+        public static final int accept=0x7f050018;
+        public static final int action_settings=0x7f050012;
+        public static final int app_name=0x7f050011;
         /**   Title for notification shown when GooglePlayServices is unavailable [CHAR LIMIT=70] 
          */
-        public static int auth_client_availability_notification_title=0x7f05000e;
+        public static final int auth_client_availability_notification_title=0x7f05000e;
         /**   Title for notification shown when GooglePlayServices is unavailable [CHAR LIMIT=42] 
          */
-        public static int auth_client_play_services_err_notification_msg=0x7f05000f;
+        public static final int auth_client_play_services_err_notification_msg=0x7f05000f;
         /**   Requested by string saying which app requested the notification. [CHAR LIMIT=42] 
          */
-        public static int auth_client_requested_by_msg=0x7f050010;
-        public static int but_A=0x7f050013;
-        public static int but_B=0x7f050014;
-        public static int comments=0x7f050015;
+        public static final int auth_client_requested_by_msg=0x7f050010;
+        public static final int but_A=0x7f050013;
+        public static final int but_B=0x7f050014;
+        public static final int comments=0x7f050015;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 
          */
-        public static int common_google_play_services_enable_button=0x7f050006;
+        public static final int common_google_play_services_enable_button=0x7f050006;
         /**  Message in confirmation dialog informing user they need to enable
         Google Play services in application settings [CHAR LIMIT=NONE] 
          */
-        public static int common_google_play_services_enable_text=0x7f050005;
+        public static final int common_google_play_services_enable_text=0x7f050005;
         /**  Title of confirmation dialog informing user they need to enable
         Google Play services in application settings [CHAR LIMIT=40] 
          */
-        public static int common_google_play_services_enable_title=0x7f050004;
+        public static final int common_google_play_services_enable_title=0x7f050004;
         /**  Button in confirmation dialog for installing Google Play services [CHAR LIMIT=40] 
          */
-        public static int common_google_play_services_install_button=0x7f050003;
+        public static final int common_google_play_services_install_button=0x7f050003;
         /**  (For phones) Message in confirmation dialog informing user that
         they need to install Google Play services (from Play Store) [CHAR LIMIT=NONE] 
          */
-        public static int common_google_play_services_install_text_phone=0x7f050001;
+        public static final int common_google_play_services_install_text_phone=0x7f050001;
         /**  (For tablets) Message in confirmation dialog informing user that
         they need to install Google Play services (from Play Store) [CHAR LIMIT=NONE] 
          */
-        public static int common_google_play_services_install_text_tablet=0x7f050002;
+        public static final int common_google_play_services_install_text_tablet=0x7f050002;
         /**  Title of confirmation dialog informing user that they need to install
         Google Play services (from Play Store) [CHAR LIMIT=40] 
          */
-        public static int common_google_play_services_install_title=0x7f050000;
+        public static final int common_google_play_services_install_title=0x7f050000;
         /**  Message in confirmation dialog informing user there is an unknown issue in Google Play
         services [CHAR LIMIT=NONE] 
          */
-        public static int common_google_play_services_unknown_issue=0x7f050009;
+        public static final int common_google_play_services_unknown_issue=0x7f050009;
         /**  Message in confirmation dialog informing user that Google Play services is not supported on their device [CHAR LIMIT=NONE] 
          */
-        public static int common_google_play_services_unsupported_text=0x7f05000b;
+        public static final int common_google_play_services_unsupported_text=0x7f05000b;
         /**  Title of confirmation dialog informing user that Google Play services is not supported on their device [CHAR LIMIT=40] 
          */
-        public static int common_google_play_services_unsupported_title=0x7f05000a;
+        public static final int common_google_play_services_unsupported_title=0x7f05000a;
         /**  Button in confirmation dialog for updating Google Play services [CHAR LIMIT=40] 
          */
-        public static int common_google_play_services_update_button=0x7f05000c;
+        public static final int common_google_play_services_update_button=0x7f05000c;
         /**  Message in confirmation dialog informing user that they need to update
         Google Play services (from Play Store) [CHAR LIMIT=NONE] 
          */
-        public static int common_google_play_services_update_text=0x7f050008;
+        public static final int common_google_play_services_update_text=0x7f050008;
         /**  Title of confirmation dialog informing user that they need to update
         Google Play services (from Play Store) [CHAR LIMIT=40] 
          */
-        public static int common_google_play_services_update_title=0x7f050007;
+        public static final int common_google_play_services_update_title=0x7f050007;
         /**  Long form sign-in button text. This is the placeholder text, used if we can't
         find the service-side assets. [CHAR LIMIT=25] 
          */
-        public static int common_signin_button_text_long=0x7f05000d;
-        public static int confirm=0x7f050020;
-        public static int date=0x7f05002a;
-        public static int develloped_by=0x7f050027;
-        public static int devellopers=0x7f050028;
-        public static int edit_store=0x7f050024;
-        public static int enviar_comentario=0x7f050025;
-        public static int hint_address=0x7f050021;
-        public static int hint_comentario=0x7f050023;
-        public static int hint_info=0x7f050022;
-        public static int info=0x7f05002b;
-        public static int load_foto=0x7f05001f;
-        public static int menu_delete=0x7f05001d;
-        public static int menu_exit=0x7f05001c;
-        public static int menu_help=0x7f05001b;
-        public static int menu_insert=0x7f050019;
-        public static int menu_map=0x7f05001a;
-        public static int no_stores=0x7f050017;
-        public static int rights=0x7f05002c;
-        public static int title=0x7f05001e;
-        public static int ver_comentarios=0x7f050026;
-        public static int version=0x7f050029;
-        public static int view_store=0x7f050016;
+        public static final int common_signin_button_text_long=0x7f05000d;
+        public static final int confirm=0x7f050020;
+        public static final int date=0x7f05002a;
+        public static final int develloped_by=0x7f050027;
+        public static final int devellopers=0x7f050028;
+        public static final int edit_store=0x7f050024;
+        public static final int enviar_comentario=0x7f050025;
+        public static final int hint_address=0x7f050021;
+        public static final int hint_comentario=0x7f050023;
+        public static final int hint_info=0x7f050022;
+        public static final int info=0x7f05002b;
+        public static final int load_foto=0x7f05001f;
+        public static final int menu_delete=0x7f05001d;
+        public static final int menu_exit=0x7f05001c;
+        public static final int menu_help=0x7f05001b;
+        public static final int menu_insert=0x7f050019;
+        public static final int menu_map=0x7f05001a;
+        public static final int no_stores=0x7f050017;
+        public static final int rights=0x7f05002c;
+        public static final int title=0x7f05001e;
+        public static final int ver_comentarios=0x7f050026;
+        public static final int version=0x7f050029;
+        public static final int view_store=0x7f050016;
     }
     public static final class style {
         /** 
@@ -304,11 +304,11 @@ containing a value of this type.
             backward-compatibility can go here.
         
          */
-        public static int AppBaseTheme=0x7f070000;
+        public static final int AppBaseTheme=0x7f070000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static int AppTheme=0x7f070001;
+        public static final int AppTheme=0x7f070001;
     }
     public static final class styleable {
         /** Attributes that can be used with a MapAttrs.

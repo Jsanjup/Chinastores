@@ -1,16 +1,27 @@
 package com.app.chinastores;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 import com.app.chinastores.R;
+import com.google.android.gms.maps.model.LatLng;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -36,8 +47,12 @@ public class MainActivity extends Activity implements LocationListener{
     private static final int DELETE_ID = EXIT_ID + 1;
     private static final int EDIT_ID = DELETE_ID+1;
     
+    private static final int DISTANCIA_MAX=50;
+    
     private LocationManager locationManager;
 	private String provider;
+	
+	private List<Store> tiendas;
 
     private StoresDbAdapter mDbHelper;
     private ListView list;
@@ -74,6 +89,8 @@ public class MainActivity extends Activity implements LocationListener{
                 fillData(bazar);
                 baz.setEnabled(true);
                 alim.setEnabled(false);
+                alim.setPressed(true);
+                baz.setPressed(false);
             }
         });
         baz.setOnClickListener( new View.OnClickListener() {
@@ -82,11 +99,17 @@ public class MainActivity extends Activity implements LocationListener{
              fillData(bazar);
              alim.setEnabled(true);
              baz.setEnabled(false);
+             baz.setPressed(true);
+             alim.setPressed(false);
             }
         });
         
         fillData(bazar);
         registerForContextMenu(list);
+    }
+    
+    public void addTienda(Store store){
+    	tiendas.add(store);
     }
     
     private void iniciarLocalizador(){
@@ -226,11 +249,6 @@ public class MainActivity extends Activity implements LocationListener{
     	return 0;
     }
     
-    public void onLocationChanged(Location location) {
-		lat =  (location.getLatitude());
-		lon = (location.getLongitude());
-	}
-
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		// TODO Auto-generated method stub
@@ -249,4 +267,102 @@ public class MainActivity extends Activity implements LocationListener{
 		Toast.makeText(this, "Disabled provider " + provider,
 				Toast.LENGTH_SHORT).show();
 	}
+	
+	public Address getAddressForLocation(Context context, Location location) throws IOException {
+
+        if (location == null) {
+            return null;
+        }
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        int maxResults = 1;
+
+        Geocoder gc = new Geocoder(context, Locale.getDefault());
+        List<Address> addresses = gc.getFromLocation(latitude, longitude, maxResults);
+
+        if (addresses.size() == 1) {
+            return addresses.get(0);
+        } else {
+            return null;
+        }
+    }
+	
+    public void onLocationChanged(Location location) {
+        // Bypass reverse-geocoding if the Geocoder service is not available on the
+        // device. The isPresent() convenient method is only available on Gingerbread or above.
+    	lat =  (location.getLatitude());
+		lon = (location.getLongitude());
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD && Geocoder.isPresent()) {
+            (new ReverseGeocodingTask(this)).execute();
+        //}
+    }
+    
+
+// AsyncTask encapsulating the reverse-geocoding API.  Since the geocoder API is blocked,
+// we do not want to invoke it from the UI thread.
+    private class ReverseGeocodingTask extends AsyncTask<Void, Void, Void> {
+    Context mContext;
+
+    public ReverseGeocodingTask(Context context) {
+        super();
+        mContext = context;
+    }
+
+    @Override
+    protected Void doInBackground(Void... params) {
+        Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+
+        List<Address> addresses = null;
+        try {
+            // Call the synchronous getFromLocation() method by passing in the lat/long values.
+            addresses = geocoder.getFromLocation(lat, lon, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (addresses != null && addresses.size() > 0) {
+            Address address = addresses.get(0);
+            // Format the first line of address (if available), city, and country name.
+            String addressText = String.format("%s, %s, %s",
+                    address.getMaxAddressLineIndex() > 0 ? address.getAddressLine(0) : "",
+                    address.getLocality(),
+                    address.getCountryName());
+            Toast.makeText(mContext, addressText,
+					Toast.LENGTH_SHORT).show();
+        }
+        return null;
+    }
+}
+    private class GeocodingTask extends AsyncTask<String, Void, Void> {
+        Context mContext;
+
+        public GeocodingTask(Context context) {
+            super();
+            mContext = context;
+        }
+
+        @Override
+        protected Void doInBackground(String... addresses) {
+            Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+            LatLng [] loc = new LatLng[addresses.length];
+            List<Float> distancias = new ArrayList<Float>();
+            try {
+                // Call the synchronous getFromLocation() method by passing in the lat/long values.
+            	for (int i=0; i<loc.length; i++){
+                Address direccion = geocoder.getFromLocationName(addresses[i], 1).get(0);
+                double latn= direccion.getLatitude();
+                double lonn= direccion.getLongitude();
+                loc[i] = new LatLng(latn, lonn);
+                float[] distancia= new float[3];
+                Location.distanceBetween(lat, lon, latn, lonn, distancia);
+                if(distancia[0] != 0 && distancia[0]<DISTANCIA_MAX) distancias.add((float) Math.round(distancia[0]/10)/100);
+            	}
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (distancias != null && distancias.size() > 0) {
+              
+            }
+            return null;
+        }
+    }
 }
