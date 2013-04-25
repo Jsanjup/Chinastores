@@ -59,7 +59,7 @@ public class MainActivity extends Activity implements LocationListener{
         alim= (Button) findViewById(R.id.ButtonA);
         baz= (Button) findViewById(R.id.ButtonB);
         alim.setEnabled(bazar);
-        baz.setEnabled(!bazar);
+        baz.setEnabled(true);
         mDbHelper = new StoresDbAdapter(this);
         list= (ListView) findViewById(R.id.list);
         list.setOnItemClickListener(new OnItemClickListener(){
@@ -158,7 +158,7 @@ public class MainActivity extends Activity implements LocationListener{
     
     
     public void ayuda(){
-        Intent i = new Intent(this, StoreEdit.class);
+        Intent i = new Intent(this, InfoActivity.class);
         startActivityForResult(i, ACTIVITY_READ);
         }
     
