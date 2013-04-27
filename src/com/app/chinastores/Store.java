@@ -11,7 +11,7 @@ public class Store {
 	private String info;
 	private String comments;
 	private boolean confirmed;
-	private final static String icon= "@drawable/icon";
+	private final static String icon= "store.jpg";
 	private double distancia;
 	
 	public Store(char type, String address, float val,int numVal, String foto, String info, String comments, boolean confirmed){

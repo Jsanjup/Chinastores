@@ -146,27 +146,28 @@ containing a value of this type.
     public static final class id {
         public static final int ButtonA=0x7f040006;
         public static final int ButtonB=0x7f040007;
-        public static final int but_accept=0x7f040021;
-        public static final int but_edit=0x7f04002d;
-        public static final int but_enviar=0x7f04002b;
-        public static final int but_remove=0x7f040022;
-        public static final int but_send=0x7f040020;
-        public static final int but_ver=0x7f04002c;
-        public static final int checkBox=0x7f040025;
+        public static final int but_accept=0x7f040022;
+        public static final int but_edit=0x7f04002e;
+        public static final int but_enviar=0x7f04002c;
+        public static final int but_remove=0x7f040023;
+        public static final int but_send=0x7f040021;
+        public static final int but_ver=0x7f04002d;
+        public static final int checkBox=0x7f040026;
         public static final int comments=0x7f04000a;
         public static final int direccion=0x7f040015;
         public static final int editText1=0x7f040012;
-        public static final int edit_comentar=0x7f04001f;
+        public static final int edit_comentar=0x7f040020;
         public static final int edit_confirm=0x7f04001a;
-        public static final int edit_info=0x7f04001e;
-        public static final int edit_tipo=0x7f04001d;
+        public static final int edit_info=0x7f04001f;
+        public static final int edit_tipo=0x7f04001e;
         public static final int edit_title=0x7f040019;
         public static final int edit_valoracion=0x7f04001b;
         public static final int empty=0x7f040009;
-        public static final int foto=0x7f040027;
+        public static final int foto=0x7f040028;
+        public static final int foto_view=0x7f04001d;
         public static final int hybrid=0x7f040004;
-        public static final int imageconfirmed=0x7f040024;
-        public static final int info=0x7f040029;
+        public static final int imageconfirmed=0x7f040025;
+        public static final int info=0x7f04002a;
         public static final int info_date=0x7f04000f;
         public static final int info_description=0x7f040010;
         public static final int info_develloped=0x7f04000c;
@@ -186,10 +187,10 @@ containing a value of this type.
         public static final int row_valoracion=0x7f040018;
         public static final int satellite=0x7f040002;
         public static final int terrain=0x7f040003;
-        public static final int title=0x7f040023;
-        public static final int ver_tipo=0x7f040028;
-        public static final int ver_valoracion=0x7f040026;
-        public static final int view_comentar=0x7f04002a;
+        public static final int title=0x7f040024;
+        public static final int ver_tipo=0x7f040029;
+        public static final int ver_valoracion=0x7f040027;
+        public static final int view_comentar=0x7f04002b;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

@@ -1,11 +1,15 @@
 package com.app.chinastores;
 
+import java.io.File;
+
 import com.app.chinastores.R;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -65,7 +69,7 @@ public class StoreView extends Activity {
         }
            
         populateFields();
-        
+       
         edit.setOnClickListener(new View.OnClickListener() {
 
         	public void onClick(View view) {
@@ -111,6 +115,11 @@ public class StoreView extends Activity {
             char type = store.getType();
             if (type=='B')  tipo.setChecked(true);
             else tipo.setChecked(false);
+            String imageFilePath = store.getFoto();
+    		File image = new File(imageFilePath);
+    		Uri uri= Uri.fromFile(image);
+    		if(!uri.equals(Uri.EMPTY)) Log.e("Uri", "is empty");
+    		foto.setImageURI(uri);
         } 
         mDbHelper.close();
     }
