@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
@@ -97,6 +98,13 @@ public class StoreView extends Activity {
         startActivityForResult(i, ACTIVITY_CREATE);
     }
     
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	if	(resultCode != RESULT_OK) {
+    		finish();
+    	}else populateFields();
+    	super.onActivityResult(requestCode, resultCode, data);
+    }
+    
     private void populateFields() {
     	mDbHelper.open();
         if (mRowId != null) {
@@ -115,10 +123,8 @@ public class StoreView extends Activity {
             char type = store.getType();
             if (type=='B')  tipo.setChecked(true);
             else tipo.setChecked(false);
-            String imageFilePath = store.getFoto();
-    		File image = new File(imageFilePath);
+    		File image = new File(getFilesDir()+"/"+store.getFoto());
     		Uri uri= Uri.fromFile(image);
-    		if(!uri.equals(Uri.EMPTY)) Log.e("Uri", "is empty");
     		foto.setImageURI(uri);
         } 
         mDbHelper.close();

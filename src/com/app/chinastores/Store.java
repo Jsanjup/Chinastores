@@ -23,7 +23,7 @@ public class Store {
 	setInfo(info);
 	setComments(comments);
 	this.confirmed= confirmed;
-	distancia = 0;
+	setDistancia(0);
 	}
 	
 	public Store(char type, String address, float val, String info){
@@ -31,7 +31,7 @@ public class Store {
 		setAddress(address);
 		setVal(val);
 		setNumval(0);
-		setFoto(icon);
+		setFoto(System.currentTimeMillis()+".jpg");
 		setInfo(info);
 		setComments("");
 	}
@@ -128,5 +128,13 @@ public class Store {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public double getDistancia() {
+		return distancia;
+	}
+
+	public void setDistancia(double distancia) {
+		this.distancia = distancia;
 	}
 }

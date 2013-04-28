@@ -66,6 +66,7 @@ public class StoreEdit extends Activity {
     private final static int TAKE_FOTO=1337;
     private final static int PICK_FROM_GALLERY=1;
     private File image;
+    private final static int RESULT_DELETE=3;
     
     private Store store;
     
@@ -79,6 +80,7 @@ public class StoreEdit extends Activity {
         mContext=this;
         setTitle(R.string.edit_store);
         confirmed=false;
+        type='A';
         direccion = (EditText) findViewById(R.id.edit_title);
         confirmar = (CheckBox) findViewById(R.id.edit_confirm);
         tipo= (ToggleButton) findViewById(R.id.edit_tipo);
@@ -100,11 +102,10 @@ public class StoreEdit extends Activity {
             mRowId = extras != null ? extras.getLong(StoresDbAdapter.KEY_ROWID)
                                     : null;
             remove.setEnabled(false);
-        }
+        }else remove.setEnabled(true);
            
         populateFields();
-        String imageFilePath = store.getType()+mRowId+".jpg";
-		image = getDir(imageFilePath, MODE_PRIVATE);
+		image= new File(getFilesDir()+"/"+store.getFoto());
         accept.setOnClickListener(new View.OnClickListener() {
 
         	public void onClick(View view) {
@@ -119,7 +120,7 @@ public class StoreEdit extends Activity {
         remove.setOnClickListener(new View.OnClickListener() {
 
         	public void onClick(View view) {
-        	    setResult(RESULT_OK);
+        	    setResult(RESULT_DELETE);
         	    mDbHelper.open();
                 if (mRowId == null) {
                 	return;
@@ -134,7 +135,6 @@ public class StoreEdit extends Activity {
         tipo.setOnClickListener(new View.OnClickListener() {
 
         	public void onClick(View view) {
-        	    setResult(RESULT_OK);
         	    if(tipo.isChecked()) type='B';
         	    else type='A';
         	    store.setType(type);
@@ -212,12 +212,43 @@ public class StoreEdit extends Activity {
        case PICK_FROM_GALLERY:
     	   Uri selectedImageUri = data.getData();
            imagen.setImageURI(selectedImageUri);
-           store.setFoto(selectedImageUri.getPath());
-           Log.e("path gallery", store.getFoto());
+           copyFile(selectedImageUri);
            foto.setVisibility(View.INVISIBLE);
+           imagen.setVisibility(View.VISIBLE);
            foto.setEnabled(false);
+           saveState();
        }
     	super.onActivityResult(requestCode, resultCode, data);
+    }
+    
+    private void copyFile(Uri uri){
+    	File src = new File(getRealPathFromURI(uri));
+    	try{
+    	FileInputStream in = new FileInputStream(src);
+        FileOutputStream out = new FileOutputStream(image); 
+
+        byte[] buffer = new byte[1024];
+
+        int length;
+        //copy the file content in bytes 
+        while ((length = in.read(buffer)) > 0){
+           out.write(buffer, 0, length);
+        }
+
+        in.close();
+        out.close();
+    	}catch(Exception e){
+    		Log.e("Excepcion", e.getMessage());
+    	}
+    }
+    
+    
+    private String getRealPathFromURI(Uri contentUri) {
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(contentUri, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
     }
     
     private void handleSmallCameraPhoto(Intent intent) {
@@ -233,12 +264,15 @@ public class StoreEdit extends Activity {
         foto.setEnabled(false);
         //imagen.setImageBitmap(mImageBitmap);
         imagen.setImageURI(uri);
-        store.setFoto(image.getPath());
+        imagen.setVisibility(View.VISIBLE);
+        saveState();
     }
     
     private void populateFields() {
     	mDbHelper.open();
         if (mRowId != null) {
+        	confirmar.setEnabled(true);
+        	remove.setEnabled(true);
             store= mDbHelper.getStore(mRowId);
             direccion.setText(store.getAddress());
             info.setText(store.getInfo());
@@ -286,6 +320,7 @@ public class StoreEdit extends Activity {
         mDbHelper.close();
     }
 	private void createStore(){
+		confirmar.setEnabled(false);
 		store = new Store(type, direccion.getText().toString(), valorar.getRating(), info.getText().toString());
 		long id = mDbHelper.createStore(store);
 		if (id > 0) mRowId = id;
