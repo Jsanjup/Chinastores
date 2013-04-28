@@ -5,6 +5,9 @@ import java.io.File;
 import com.app.chinastores.R;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -40,13 +43,14 @@ public class StoreView extends Activity {
     private Long mRowId;
     private StoresDbAdapter mDbHelper;
     private Store store;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.store_view);
         setTitle(R.string.view_store);
-
+        mContext= this;
         direccion = (TextView) findViewById(R.id.title);
         confirmed = (ImageView) findViewById(R.id.imageconfirmed);
         confirmar = (CheckBox) findViewById(R.id.checkBox);
@@ -79,14 +83,40 @@ public class StoreView extends Activity {
         	}
 
         });
+        view_all.setOnClickListener(new View.OnClickListener() {
+
+        	public void onClick(View view) {
+                comentarios();
+        	}
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+
+        	public void onClick(View view) {
+        	    envio();
+        	}
+
+        });
         confirmar.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton button, boolean isChecked) {
-                if (isChecked){
-                   confirmar();
-                   populateFields();
-                }
-            }
+        	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+           	 if (isChecked){
+           	AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+       		builder.setTitle("ÀConfirma la veracidad de los datos?");
+       		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+       	           public void onClick(DialogInterface dialog, int id) {
+       	                   confirmar();
+       	                   populateFields();
+       	                	Toast.makeText(mContext,"Tienda confirmada" , Toast.LENGTH_SHORT).show();
+       	                
+       	           }
+       	       });
+       	builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+       	           public void onClick(DialogInterface dialog, int id) {
+       	               return;
+       	           }
+       });builder.create().show();
+              
+               }
+           }
 
         });
         
@@ -94,6 +124,20 @@ public class StoreView extends Activity {
     
     private void editar(){
         Intent i = new Intent(this, StoreEdit.class);
+        i.putExtra(StoresDbAdapter.KEY_ROWID, mRowId);
+        startActivityForResult(i, ACTIVITY_CREATE);
+    }
+    
+    private void envio(){
+    	mDbHelper.open();
+    	store.addComent(comentar.getText().toString());
+    	mDbHelper.updateNote(mRowId, store);
+    	mDbHelper.close();
+    	Toast.makeText(this,"Comentario Enviado" , Toast.LENGTH_SHORT).show();
+    }
+    
+    private void comentarios(){
+        Intent i = new Intent(this, CommentActivity.class);
         i.putExtra(StoresDbAdapter.KEY_ROWID, mRowId);
         startActivityForResult(i, ACTIVITY_CREATE);
     }

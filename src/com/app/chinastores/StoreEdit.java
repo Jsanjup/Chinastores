@@ -102,6 +102,7 @@ public class StoreEdit extends Activity {
             mRowId = extras != null ? extras.getLong(StoresDbAdapter.KEY_ROWID)
                                     : null;
             remove.setEnabled(false);
+            confirmar.setEnabled(false);
         }else remove.setEnabled(true);
            
         populateFields();
@@ -112,6 +113,7 @@ public class StoreEdit extends Activity {
         	    setResult(RESULT_OK);
 				store.valorar(valorar.getRating());
         	    saveState();
+        	    Toast.makeText(mContext,"La tienda ha sido modificada" , Toast.LENGTH_SHORT).show();
         	    finish();
         	}
 
@@ -120,15 +122,28 @@ public class StoreEdit extends Activity {
         remove.setOnClickListener(new View.OnClickListener() {
 
         	public void onClick(View view) {
-        	    setResult(RESULT_DELETE);
-        	    mDbHelper.open();
-                if (mRowId == null) {
-                	return;
-                } else {
-                	mDbHelper.deleteNote(mRowId);
-                }
-                mDbHelper.close();
-        	    finish();
+        		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        		builder.setTitle("ÀSequro que desea eliminar la tienda?");
+        		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        	           public void onClick(DialogInterface dialog, int id) {
+        	        	   setResult(RESULT_DELETE);
+        	        	    mDbHelper.open();
+        	                if (mRowId == null) {
+        	                	return;
+        	                } else {
+        	                	mDbHelper.deleteNote(mRowId);
+        	                	Toast.makeText(mContext,"La tienda ha sido borrada" , Toast.LENGTH_SHORT).show();
+        	                }
+        	                mDbHelper.close();
+        	        	    finish();
+        	           }
+        	       });
+        	builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        	           public void onClick(DialogInterface dialog, int id) {
+        	               return;
+        	           }
+
+        });builder.create().show();
         	}
 
         });
@@ -146,26 +161,35 @@ public class StoreEdit extends Activity {
         confirmar.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton button, boolean isChecked) {
-                if (isChecked){
-                   store.confirmar();
-                   saveState();
-                   populateFields();
+            	 if (isChecked){
+            	AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        		builder.setTitle("ÀConfirma la veracidad de los datos?");
+        		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        	           public void onClick(DialogInterface dialog, int id) {
+        	                   store.confirmar();
+        	                   saveState();
+        	                   populateFields();
+        	                	Toast.makeText(mContext,"Tienda confirmada" , Toast.LENGTH_SHORT).show();
+        	                
+        	           }
+        	       });
+        	builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        	           public void onClick(DialogInterface dialog, int id) {
+        	               return;
+        	           }
+        });builder.create().show();
+               
                 }
             }
 
         });
-        /**
-        valorar.setOnRatingBarChangeListener(new OnRatingBarChangeListener(){
+        send.setOnClickListener(new View.OnClickListener() {
 
-			@Override
-			public void onRatingChanged(RatingBar valorar, float valoracion, boolean fromuser) {
-				store.valorar(valoracion);
-				saveState();
-				populateFields();
-			}
-        	
-        });*/
-        
+        	public void onClick(View view) {
+        	    envio();
+        	}
+
+        });
         foto.setOnClickListener(new View.OnClickListener() {
 
         	public void onClick(View view) {
@@ -186,6 +210,12 @@ public class StoreEdit extends Activity {
         
     }
     
+    private void envio(){
+    	store.addComent(comentar.getText().toString());
+    	saveState();
+    	Toast.makeText(mContext,"Comentario enviado" , Toast.LENGTH_SHORT).show();
+    	populateFields();
+    }
     
     private void dispatchTakePictureIntent() {
     	
@@ -262,7 +292,6 @@ public class StoreEdit extends Activity {
 		Uri uri= Uri.fromFile(image);
         foto.setVisibility(View.INVISIBLE);
         foto.setEnabled(false);
-        //imagen.setImageBitmap(mImageBitmap);
         imagen.setImageURI(uri);
         imagen.setVisibility(View.VISIBLE);
         saveState();
@@ -271,12 +300,12 @@ public class StoreEdit extends Activity {
     private void populateFields() {
     	mDbHelper.open();
         if (mRowId != null) {
-        	confirmar.setEnabled(true);
         	remove.setEnabled(true);
             store= mDbHelper.getStore(mRowId);
             direccion.setText(store.getAddress());
             info.setText(store.getInfo());
             valorar.setRating(store.getVal());
+            comentar.setText("");
             if (store.isConfirmed()){
             	confirmar.setVisibility(View.INVISIBLE);            	
             }
@@ -293,13 +322,13 @@ public class StoreEdit extends Activity {
     
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        saveState();
+        //saveState();
         outState.putSerializable(StoresDbAdapter.KEY_ROWID, mRowId);
     }
     
     protected void onPause() {
         super.onPause();
-        saveState();
+        //saveState();
     }
     
     protected void onResume() {
@@ -314,11 +343,11 @@ public class StoreEdit extends Activity {
         } else {
         	store.setAddress(direccion.getText().toString());
             store.setInfo(info.getText().toString());
-            store.addComent(comentar.getText().toString());
             mDbHelper.updateNote(mRowId, store);
         }
         mDbHelper.close();
     }
+    
 	private void createStore(){
 		confirmar.setEnabled(false);
 		store = new Store(type, direccion.getText().toString(), valorar.getRating(), info.getText().toString());

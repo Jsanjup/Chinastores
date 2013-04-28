@@ -1,5 +1,7 @@
 package com.app.chinastores;
 
+import java.util.List;
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,35 +11,38 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
  
-public class CustomCursorAdapter extends CursorAdapter {
+public class CustomListAdapter extends ArrayAdapter implements Filterable {
  
 	private int distance;
 	private LayoutInflater inflater;
-	private boolean bazar;
+	private Context context;
+	private List<Store> lista;
 	
-    public CustomCursorAdapter(Context context, Cursor c, int distance, boolean bazar){
-       super(context, c,0);
+    public CustomListAdapter(Context context, List<Store> list, int distance, boolean bazar){
+       super(context,0,list);
        this.distance=distance;
-       this.bazar=bazar;
+       this.context= context;
+       lista=list;
        inflater = LayoutInflater.from(context);
     }
  
-    @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         // when the view will be created for first time,
         // we need to tell the adapters, how each item will look
     	StoresDbAdapter mDbHelper = new StoresDbAdapter(context);
         mDbHelper.open();
         View retView = inflater.inflate(R.layout.notes_row, parent, false);
-        bindView(retView, context, cursor);
+        bindView(retView, context, lista.get(position));
         mDbHelper.close();
         return retView;
     }
- 
+    /**
 	@Override
     public void bindView(View view, Context context, Cursor cursor) {        
 			
@@ -50,5 +55,20 @@ public class CustomCursorAdapter extends CursorAdapter {
 	        RatingBar valoracion = (RatingBar) view.findViewById(R.id.row_valoracion);
 	        valoracion.setRating(Float.parseFloat(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_VALOR))));
 		
-		}
+		}*/
+    
+	private View bindView(View view, Context context, Store store) {        
+		
+        TextView direccion= (TextView) view.findViewById(R.id.direccion);
+        direccion.setText(store.getAddress());	    	
+        TextView distancia =(TextView) view.findViewById(R.id.row_distancia);
+        distancia.setText(""+store.getDistancia());
+        ImageView confirmed = (ImageView) view.findViewById(R.id.row_tick);
+        if (store.isConfirmed())
+        confirmed.setVisibility(View.VISIBLE);       
+        else confirmed.setVisibility(View.INVISIBLE);
+        RatingBar valoracion = (RatingBar) view.findViewById(R.id.row_valoracion);
+        valoracion.setRating(store.getVal());
+        return view;
+	}
 }

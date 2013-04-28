@@ -16,6 +16,9 @@
 
 package com.app.chinastores;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -54,6 +57,7 @@ public class StoresDbAdapter {
     private static final String TAG = "NotesDbAdapter";
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
+    private List<Store> tiendas;
 
     /**
      * Database creation sql statement
@@ -73,12 +77,14 @@ public class StoresDbAdapter {
 
         DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
         }
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-
+        	
             db.execSQL(DATABASE_CREATE);
+
         }
 
         @Override
@@ -98,6 +104,7 @@ public class StoresDbAdapter {
      */
     public StoresDbAdapter(Context ctx) {
         this.mCtx = ctx;
+        tiendas=new ArrayList<Store>();
     }
 
     /**
@@ -148,6 +155,7 @@ public class StoresDbAdapter {
     }
     
     public long createStore(Store store){
+    	//tiendas.add(store);
     	return createNote(store.getType(), store.getAddress(),store.getVal(),store.getNumval(),store.getFoto(),store.getInfo(),store.getComments(), store.isConfirmed());  
     }
 
@@ -172,6 +180,23 @@ public class StoresDbAdapter {
         return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TYPE,
                 KEY_ADDRESS, KEY_VALOR, KEY_NVALOR, KEY_FOTO, KEY_INFO, KEY_COMENTS, KEY_CONFIRMED}, null, null, null, null, null);
     }
+    
+    public List<Store> fetchAllStores(){
+    	Cursor cursor = fetchAllNotes();
+
+    	Log.e("tama–o bbdd total", cursor.getCount()+"");
+    	Log.e("posicion bbdd total", cursor.getPosition()+"");
+    	if(cursor!=null){
+    		Log.e("bbdd", "base de datos nula");
+    	List<Store> list = new ArrayList<Store>();
+    	cursor.moveToFirst();
+    	while(cursor.moveToNext()){
+    		list.add(getStore(cursor.getPosition()));
+    	}
+    	tiendas = list;
+    	return list;
+    	}else return null;
+    }
     /**
      * Return a Cursor over the list of all notes in the database
      * 
@@ -192,6 +217,20 @@ public class StoresDbAdapter {
             mCursor.moveToFirst();  
         }
         return mCursor;
+    }
+    
+    public List<Store> fetchStoreByType(boolean type) throws SQLException{
+    	List<Store> list = new ArrayList<Store>();
+    	Cursor cursor = fetchByType(type);
+    	Log.e("tama–o bbdd por tipo "+ type, cursor.getCount()+"");
+    	if(cursor!=null && cursor.moveToFirst()){
+            Log.e("posicion inicial bbdd por tipo "+ type, cursor.getPosition()+"");
+    		while(cursor.moveToNext()){
+            Log.e("posicion bucle bbdd por tipo "+ type, cursor.getPosition()+"");
+    		list.add(getStore(cursor.getPosition()));
+    	}
+    		}else Log.w("problema cursor", "es nulo");
+    	return list;
     }
 
     /**
@@ -218,6 +257,8 @@ public class StoresDbAdapter {
     public Store getStore(long rowId) throws SQLException {
 
         Cursor mCursor = fetchNote(rowId);
+        Log.e("RowId", rowId+"");
+        if (mCursor!=null) {
         char tipo = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_TYPE)).charAt(0);
         String address = mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_ADDRESS));	    	
         boolean confirmed =(Integer.parseInt(mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_CONFIRMED)))==CONFIRMED);
@@ -227,7 +268,8 @@ public class StoresDbAdapter {
         String coments = mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_COMENTS));
         String foto = mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_FOTO));
         Store store = new Store(tipo, address, valoracion, nvaloraciones, foto, info, coments, confirmed );
-        return store;
+        return store;}
+        else return null;
     }
     /**
      * Return a Cursor positioned at the comments that matches the given rowId

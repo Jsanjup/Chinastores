@@ -146,16 +146,16 @@ containing a value of this type.
     public static final class id {
         public static final int ButtonA=0x7f040006;
         public static final int ButtonB=0x7f040007;
+        public static final int android_lista=0x7f04000a;
         public static final int but_accept=0x7f040022;
         public static final int but_edit=0x7f04002e;
-        public static final int but_enviar=0x7f04002c;
+        public static final int but_enviar=0x7f04002d;
         public static final int but_remove=0x7f040023;
         public static final int but_send=0x7f040021;
-        public static final int but_ver=0x7f04002d;
+        public static final int but_ver=0x7f04002c;
         public static final int checkBox=0x7f040026;
-        public static final int comments=0x7f04000a;
+        public static final int co=0x7f040012;
         public static final int direccion=0x7f040015;
-        public static final int editText1=0x7f040012;
         public static final int edit_comentar=0x7f040020;
         public static final int edit_confirm=0x7f04001a;
         public static final int edit_info=0x7f04001f;
@@ -217,7 +217,7 @@ containing a value of this type.
         public static final int auth_client_requested_by_msg=0x7f050010;
         public static final int but_A=0x7f050013;
         public static final int but_B=0x7f050014;
-        public static final int comments=0x7f050015;
+        public static final int comment=0x7f050015;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 

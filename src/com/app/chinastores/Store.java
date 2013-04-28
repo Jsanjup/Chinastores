@@ -56,7 +56,7 @@ public class Store {
 		this.comments = comments;
 	}
 	public void addComent(String comment){
-		this.comments += comment +"\n";
+		this.comments += comment +"\n" +StoresDbAdapter.SEP_COMENT;
 	}
 
 	public String getInfo() {

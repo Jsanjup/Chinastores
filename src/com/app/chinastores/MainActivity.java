@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.app.chinastores.R;
-import com.google.android.gms.maps.model.LatLng;
+//import com.google.android.gms.maps.model.LatLng;
 
 import android.app.Activity;
 import android.content.Context;
@@ -331,7 +331,7 @@ public class MainActivity extends Activity implements LocationListener{
         }
         return null;
     }
-}
+}/** 
     private class GeocodingTask extends AsyncTask<String, Void, Void> {
         Context mContext;
 
@@ -339,19 +339,19 @@ public class MainActivity extends Activity implements LocationListener{
             super();
             mContext = context;
         }
-
+        
         @Override
         protected Void doInBackground(String... addresses) {
             Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
-            LatLng [] loc = new LatLng[addresses.length];
+            //LatLng [] loc = new LatLng[addresses.length];
             List<Float> distancias = new ArrayList<Float>();
             try {
                 // Call the synchronous getFromLocation() method by passing in the lat/long values.
-            	for (int i=0; i<loc.length; i++){
+           	for (int i=0; i<loc.length; i++){
                 Address direccion = geocoder.getFromLocationName(addresses[i], 1).get(0);
                 double latn= direccion.getLatitude();
                 double lonn= direccion.getLongitude();
-                loc[i] = new LatLng(latn, lonn);
+               // loc[i] = new LatLng(latn, lonn);
                 float[] distancia= new float[3];
                 Location.distanceBetween(lat, lon, latn, lonn, distancia);
                 if(distancia[0] != 0 && distancia[0]<DISTANCIA_MAX) distancias.add((float) Math.round(distancia[0]/10)/100);
@@ -361,8 +361,8 @@ public class MainActivity extends Activity implements LocationListener{
             }
             if (distancias != null && distancias.size() > 0) {
               
-            }
+            
             return null;
-        }
-    }
+        }}
+    }*/
 }

@@ -98,13 +98,13 @@
             android:hint="@string/hint_comentario" >
 
             <Button
-                android:id="@+id/but_enviar"
+                android:id="@+id/but_ver"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/ver_comentarios" />
 
             <Button
-                android:id="@+id/but_ver"
+                android:id="@+id/but_enviar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/enviar_comentario" />
