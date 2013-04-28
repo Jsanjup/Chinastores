@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">China Stores</string>
+    <string name="action_settings">Réglage</string>
+    <string name="but_A">Alimentation</string>
+    <string name="but_B">Bazar</string>
+    <string name="comment">Commentaires</string>
+    <string name="view_store">Details</string>
+    <string name="no_stores">Sans magasins</string>
+    <string name="accept">Accepter</string>
+    <string name="menu_insert">Ajouter magasin</string>
+    <string name="menu_map">Voir sur carte</string>
+    <string name="menu_help">Aide</string>
+    <string name="menu_exit">Sortir</string>
+    <string name="menu_delete">Éliminer magasin</string>
+    <string name="title">Titre</string>
+    <string name="load_foto">Charger photo</string>
+    <string name="confirm">Confirmer</string>
+    <string name="hint_address">Introduire une adresse</string>
+    <string name="hint_info">Écrire information sur le magasin</string>
+    <string name="hint_comentario">Envoyez votre opinion</string>
+    <string name="edit_store">Éditer magasin</string>
+    <string name="enviar_comentario">Envoyer</string>
+    <string name="ver_comentarios">Voir tous</string>
+    <string name="develloped_by">\n Developpée par:</string>
+    <string name="devellopers">\n Rafael Comendador \n José San Juan \n</string>
+    <string name="version">Version: 1.1</string>
+    <string name="date">Dernière modification: 28/04/2013\n</string>
+    <string name="info">Projet pour la matière\nSOFTWARE DE COMMUNICATIONS \n			Année 2013 \n \nApplication pour localiser -dans des versions futures- les magasins d\'alimentation ou bazars à Madrid.\n</string>
+    <string name="rights">\nTouts droits reservés ©\n</string>
+    <string name="ad_delete">Magasin effacé</string>
+    <string name="ask_delete">Désirez vous éliminer ce magasin?</string>
+    <string name="provider_not_avalaible">Provoyeur non disponible</string>
+    <string name="ask_confirm">Confirmez vous la véracité de ces informations?</string>
+    <string name="ad_confirm">Magasin vérifié</string>
+    <string name="cancel">Canceler</string>
+    <string name="ad_sent">Commentaire envoyé</string>
+    <string name="from_gallery">Importer de la galerie</string>
+    <string name="take_pic">Prendre nouvelle photo</string>
+    <string name="import_fail">Error d\'importation</string>
+    <string name="ask_default_address">Votre magasin n\'a pas d\'addresse, s\'il vous plait ajoutez-en une</string>
+    <string name="ad_default_name">Ajouter adresse par défaut</string>
+    <string name="no_address">Adresse inconnue</string>
+    <string name="ad_save">Touts changes sauvegardés</string>
+    <string name="ad_valid_address">S\'il vous plait introduisez une adresse correcte</string>
+</resources>

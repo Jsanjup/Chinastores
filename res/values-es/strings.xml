@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">China Stores</string>
+    <string name="action_settings">Configuracion</string>
+    <string name="but_A">Alimentación</string>
+    <string name="but_B">Bazar</string>
+    <string name="comment">Comentarios</string>
+    <string name="view_store">Detalle</string>
+    <string name="no_stores">No hay locales</string>
+    <string name="accept">Aceptar</string>
+    <string name="menu_insert">Añadir Local</string>
+    <string name="menu_map">Ver en mapa</string>
+    <string name="menu_help">Acerca de</string>
+    <string name="menu_exit">Salir</string>
+    <string name="menu_delete">Borrar tienda</string>
+    <string name="title">Titulo</string>
+    <string name="load_foto">Cargar imagen</string>
+    <string name="confirm">Confirmar</string>
+    <string name="hint_address">Introduzca dirección</string>
+    <string name="hint_info">Escriba información sobre el local</string>
+    <string name="hint_comentario">Envie algún comentario</string>
+    <string name="edit_store">Editar tienda</string>
+    <string name="enviar_comentario">Enviar</string>
+    <string name="ver_comentarios">Ver todos</string>
+    <string name="develloped_by">\n Desarrollada por:</string>
+    <string name="devellopers">\n Rafael Comendador \n José San Juan \n</string>
+    <string name="version">Versión: 1.1</string>
+    <string name="date">Ultima modificación: 28/04/2013\n</string>
+    <string name="info">Proyecto de la asignatura\nSOFTWARE DE COMUNICACIONES\n			Año 2013 \n \nLocalizador de comercios de alimentación y bazares en la ciudad de Madrid\n</string>
+    <string name="rights">\nTodos los derechos reservados ©\n</string>
+    <string name="ad_delete">Tienda eliminada</string>
+    <string name="ask_delete">¿Desea borrar esta tienda?</string>
+    <string name="provider_not_avalaible">Proveedor no disponible</string>
+    <string name="ask_confirm">¿Desea confirmar la veracidad de la información?</string>
+    <string name="ad_confirm">Tienda verificada</string>
+    <string name="cancel">Cancelar</string>
+    <string name="ad_sent">Comentario enviado</string>
+    <string name="from_gallery">Importar de la galería</string>
+    <string name="take_pic">Tomar una nueva foto</string>
+    <string name="import_fail">Fallo durante la importación</string>
+    <string name="ask_default_address">Su local no tiene dirección, por favor añada una</string>
+    <string name="ad_default_name">Añadir dirección por defecto</string>
+    <string name="no_address">Dirección desconocida</string>
+    <string name="ad_save">Se han guardado los cambios</string>
+    <string name="ad_valid_address">Por favor introduzca una dirección válida</string>
+</resources>
