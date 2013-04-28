@@ -9,7 +9,9 @@ import com.app.chinastores.R;
 import com.google.android.gms.maps.model.LatLng;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.location.Address;
@@ -131,7 +133,7 @@ public class MainActivity extends Activity implements LocationListener{
 			sacarDistancias();
 		} else {
 			sacarDistancias();
-			Toast.makeText(this, "Provider not available",
+			Toast.makeText(this, R.string.provider_not_avalaible,
 					Toast.LENGTH_SHORT).show();
 		}
 		
@@ -222,6 +224,7 @@ public class MainActivity extends Activity implements LocationListener{
     	mDbHelper.open();
         mDbHelper.deleteNote(info.id);
         mDbHelper.close();
+	    Toast.makeText(this,R.string.ad_delete , Toast.LENGTH_SHORT).show();
         fillData(bazar);
     }
     

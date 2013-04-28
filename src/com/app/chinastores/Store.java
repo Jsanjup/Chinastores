@@ -11,8 +11,9 @@ public class Store {
 	private String info;
 	private String comments;
 	private boolean confirmed;
-	private final static String icon= "store.jpg";
+	private boolean modificado;
 	private double distancia;
+	public final static String pordefecto="POR_DEFECTO";
 	
 	public Store(char type, String address, float val,int numVal, String foto, String info, String comments, boolean confirmed){
 	setType(type);
@@ -31,11 +32,14 @@ public class Store {
 		setAddress(address);
 		setVal(val);
 		setNumval(0);
-		setFoto(System.currentTimeMillis()+".jpg");
+		setFoto(pordefecto);
 		setInfo(info);
 		setComments("");
 	}
-
+	
+	public boolean isModificado(){
+		return modificado;
+	}
 	public boolean isConfirmed() {
 		return confirmed;
 	}

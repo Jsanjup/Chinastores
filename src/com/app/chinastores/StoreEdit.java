@@ -24,6 +24,7 @@ import com.app.chinastores.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -109,15 +110,38 @@ public class StoreEdit extends Activity {
         }
            
         populateFields();
-		image= new File(getFilesDir()+"/"+store.getFoto());
+		
         accept.setOnClickListener(new View.OnClickListener() {
 
         	public void onClick(View view) {
         	    setResult(RESULT_OK);
 				store.valorar(valorar.getRating());
         	    saveState();
-        	    Toast.makeText(mContext,"La tienda ha sido modificada" , Toast.LENGTH_SHORT).show();
+        	    if(direccion.getText().toString().length()<=1){
+        	    	AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        	    	builder.setTitle(R.string.ask_default_address);
+            		builder.setPositiveButton(R.string.ad_default_name, new DialogInterface.OnClickListener() {
+            	           public void onClick(DialogInterface dialog, int id) {
+            	             direccion.setText(getString(R.string.no_address));
+            	             saveState();
+            	             populateFields();
+            	        	 Toast.makeText(mContext, R.string.no_address, Toast.LENGTH_SHORT).show();
+            	        	  finish();
+            	           }
+            	       });
+            	builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            	           public void onClick(DialogInterface dialog, int id) {
+            	        	   Toast.makeText(mContext,R.string.ad_valid_address , Toast.LENGTH_SHORT).show();
+            	               return;
+            	           }
+
+            	});
+            	builder.create().show();
+            	          	
+        	    }else {Toast.makeText(mContext,R.string.ad_save, Toast.LENGTH_SHORT).show(); 
         	    finish();
+        	    }
+        	    
         	}
 
         });
@@ -126,7 +150,7 @@ public class StoreEdit extends Activity {
 
         	public void onClick(View view) {
         		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        		builder.setTitle("ÀSeguro que desea eliminar la tienda?");
+        		builder.setTitle(R.string.ask_delete);
         		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
         	           public void onClick(DialogInterface dialog, int id) {
         	        	   setResult(RESULT_DELETE);
@@ -135,13 +159,13 @@ public class StoreEdit extends Activity {
         	                	return;
         	                } else {
         	                	mDbHelper.deleteNote(mRowId);
-        	                	Toast.makeText(mContext,"La tienda ha sido borrada" , Toast.LENGTH_SHORT).show();
+        	                	Toast.makeText(mContext,R.string.ad_delete , Toast.LENGTH_SHORT).show();
         	                }
         	                mDbHelper.close();
         	        	    finish();
         	           }
         	       });
-        	builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        	builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
         	           public void onClick(DialogInterface dialog, int id) {
         	               return;
         	           }
@@ -166,17 +190,17 @@ public class StoreEdit extends Activity {
             public void onCheckedChanged(CompoundButton button, boolean isChecked) {
             	 if (isChecked){
             	AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        		builder.setTitle("ÀConfirma la veracidad de los datos?");
+        		builder.setTitle(R.string.ask_confirm);
         		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
         	           public void onClick(DialogInterface dialog, int id) {
         	                   store.confirmar();
         	                   saveState();
         	                   populateFields();
-        	                	Toast.makeText(mContext,"Tienda confirmada" , Toast.LENGTH_SHORT).show();
+        	                	Toast.makeText(mContext,R.string.ad_confirm , Toast.LENGTH_SHORT).show();
         	                
         	           }
         	       });
-        	builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        	builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
         	           public void onClick(DialogInterface dialog, int id) {
         	               confirmar.setChecked(false);
         	           }
@@ -194,15 +218,16 @@ public class StoreEdit extends Activity {
 
         });
         foto.setOnClickListener(new View.OnClickListener() {
-
+        	
         	public void onClick(View view) {
+        		
         		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        		builder.setPositiveButton("Importar de galer’a", new DialogInterface.OnClickListener() {
+        		builder.setPositiveButton(R.string.from_gallery, new DialogInterface.OnClickListener() {
         	           public void onClick(DialogInterface dialog, int id) {
         	             pickFromGallery();
         	           }
         	       });
-        	builder.setNegativeButton("Hacer nueva foto", new DialogInterface.OnClickListener() {
+        	builder.setNegativeButton(R.string.take_pic, new DialogInterface.OnClickListener() {
         	           public void onClick(DialogInterface dialog, int id) {
         	               dispatchTakePictureIntent();
         	           }
@@ -216,12 +241,11 @@ public class StoreEdit extends Activity {
     private void envio(){
     	if(comentar.getText().toString().length()>=3){store.addComent(comentar.getText().toString());
     	saveState();
-    	Toast.makeText(mContext,"Comentario enviado" , Toast.LENGTH_SHORT).show();
+    	Toast.makeText(mContext,R.string.ad_sent , Toast.LENGTH_SHORT).show();
     	populateFields();}
     }
     
     private void dispatchTakePictureIntent() {
-    	
     			Intent i = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
     			//i.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,Uri.fromFile(image));
     			startActivityForResult(i, TAKE_FOTO);
@@ -236,14 +260,17 @@ public class StoreEdit extends Activity {
     
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	if	(resultCode!= RESULT_OK) {
-    		Toast.makeText(this, "La importaci—n fall—",Toast.LENGTH_SHORT).show();
+    		Toast.makeText(this, R.string.import_fail,Toast.LENGTH_SHORT).show();
+    		return;
     	}
+    	else store.setFoto(System.currentTimeMillis()+".jpg");
        switch(requestCode){
        case TAKE_FOTO:
     	handleSmallCameraPhoto(data);
        	saveState();
        	break;
        case PICK_FROM_GALLERY:
+    	   image= new File(getFilesDir()+"/"+store.getFoto());
     	   Uri selectedImageUri = data.getData();
            imagen.setImageURI(selectedImageUri);
            copyFile(selectedImageUri);
@@ -287,6 +314,7 @@ public class StoreEdit extends Activity {
     }
     
     private void handleSmallCameraPhoto(Intent intent) {
+    	image= new File(getFilesDir()+"/"+store.getFoto());
         Bitmap mImageBitmap = (Bitmap) intent.getExtras().get("data");
         try {
             FileOutputStream out = openFileOutput(image.getPath(), Context.MODE_PRIVATE);

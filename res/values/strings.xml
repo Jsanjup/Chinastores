@@ -3,10 +3,10 @@
 
     <string name="app_name">China Stores</string>
     <string name="action_settings">Settings</string>
-    <string name="but_A">Alimentación</string>
-    <string name="but_B">Bazares</string>
-    <string name="comment">Comentarios</string>
-    <string name="view_store">Detalle</string>
+    <string name="but_A">Food store</string>
+    <string name="but_B">Variety</string>
+    <string name="comment">Comments</string>
+    <string name="view_store">Details</string>
     <string name="no_stores">No Stores Yet</string>
     <string name="accept">Accept</string>
     <string name="menu_insert">Add Store</string>
@@ -26,8 +26,23 @@
     <string name="develloped_by">\n Develloped by:</string>
     <string name="devellopers">\n Rafael Comendador \n José San Juan \n</string>
     <string name="version">Version: 1.1</string>
-    <string name="date">Last modification: 20/04/2013\n</string>
-    <string name="info">Proyecto de la asignatura\nSOFTWARE DE COMUNICACIONES\n			Año 2013 \n \nLocalizador de comercios de alimentación y bazares en la ciudad de Madrid\n</string>
+    <string name="date">Last modification: 28/04/2013\n</string>
+    <string name="info">Proyect for the Subject\nCOMUNICATIONS SOFTWARE\n			Year 2013 \n \nApp for geolocalising -in future versions- food and variety dolarstores in Madrid.\n</string>
     <string name="rights">\nAll rights reserved ©\n</string>
+    <string name="ad_delete">Store was deleted</string>
+    <string name="ask_delete">Do you wish to delete the store?</string>
+    <string name="provider_not_avalaible">Provider not available</string>
+    <string name="ask_confirm">Do you wish to confirm everything is right?</string>
+    <string name="ad_confirm">Store verified</string>
+    <string name="cancel">Cancel</string>
+    <string name="ad_sent">Opinion sent</string>
+    <string name="from_gallery">Import from gallery</string>
+    <string name="take_pic">Take new picture</string>
+    <string name="import_fail">Fail during importation</string>
+    <string name="ask_default_address">Your store has no address; please add one</string>
+    <string name="ad_default_name">Add default address</string>
+    <string name="no_address">Address unknown</string>
+    <string name="ad_save">Changes were saved</string>
+    <string name="ad_valid_address">Please introduce a valid address</string>
 
 </resources>

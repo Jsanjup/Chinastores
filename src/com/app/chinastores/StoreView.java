@@ -100,16 +100,16 @@ public class StoreView extends Activity {
         	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
            	 if (isChecked){
            	AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-       		builder.setTitle("ÀConfirma la veracidad de los datos?");
+       		builder.setTitle(R.string.ask_confirm);
        		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
        	           public void onClick(DialogInterface dialog, int id) {
        	                   confirmar();
        	                   populateFields();
-       	                	Toast.makeText(mContext,"Tienda confirmada" , Toast.LENGTH_SHORT).show();
+       	                	Toast.makeText(mContext,R.string.ad_confirm , Toast.LENGTH_SHORT).show();
        	                
        	           }
        	       });
-       	builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+       	builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
        	           public void onClick(DialogInterface dialog, int id) {
        	               return;
        	           }
@@ -129,11 +129,14 @@ public class StoreView extends Activity {
     }
     
     private void envio(){
+    	if(comentar.getText().toString().length()>=3){
     	mDbHelper.open();
     	store.addComent(comentar.getText().toString());
     	mDbHelper.updateNote(mRowId, store);
     	mDbHelper.close();
-    	Toast.makeText(this,"Comentario Enviado" , Toast.LENGTH_SHORT).show();
+    	Toast.makeText(this,R.string.ad_sent , Toast.LENGTH_SHORT).show();
+    	populateFields();
+    	}
     }
     
     private void comentarios(){
@@ -164,12 +167,14 @@ public class StoreView extends Activity {
             	confirmed.setVisibility(View.INVISIBLE);
             	confirmar.setVisibility(View.VISIBLE);
             }
+            comentar.setText("");
             char type = store.getType();
             if (type=='B')  tipo.setChecked(true);
             else tipo.setChecked(false);
+            if(!store.getFoto().equals(Store.pordefecto)){
     		File image = new File(getFilesDir()+"/"+store.getFoto());
     		Uri uri= Uri.fromFile(image);
-    		foto.setImageURI(uri);
+    		foto.setImageURI(uri);}
         } 
         mDbHelper.close();
     }

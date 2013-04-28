@@ -147,27 +147,27 @@ containing a value of this type.
         public static final int ButtonA=0x7f040006;
         public static final int ButtonB=0x7f040007;
         public static final int android_lista=0x7f04000a;
-        public static final int but_accept=0x7f040022;
-        public static final int but_edit=0x7f04002e;
-        public static final int but_enviar=0x7f04002d;
-        public static final int but_remove=0x7f040023;
-        public static final int but_send=0x7f040021;
-        public static final int but_ver=0x7f04002c;
-        public static final int checkBox=0x7f040026;
+        public static final int but_accept=0x7f040023;
+        public static final int but_edit=0x7f04002f;
+        public static final int but_enviar=0x7f04002e;
+        public static final int but_remove=0x7f040024;
+        public static final int but_send=0x7f040022;
+        public static final int but_ver=0x7f04002d;
+        public static final int checkBox=0x7f040027;
         public static final int co=0x7f040012;
         public static final int direccion=0x7f040015;
-        public static final int edit_comentar=0x7f040020;
-        public static final int edit_confirm=0x7f04001a;
-        public static final int edit_info=0x7f04001f;
-        public static final int edit_tipo=0x7f04001e;
-        public static final int edit_title=0x7f040019;
-        public static final int edit_valoracion=0x7f04001b;
+        public static final int edit_comentar=0x7f040021;
+        public static final int edit_confirm=0x7f04001b;
+        public static final int edit_info=0x7f040020;
+        public static final int edit_tipo=0x7f04001f;
+        public static final int edit_title=0x7f04001a;
+        public static final int edit_valoracion=0x7f04001c;
         public static final int empty=0x7f040009;
-        public static final int foto=0x7f040028;
-        public static final int foto_view=0x7f04001d;
+        public static final int foto=0x7f040029;
+        public static final int foto_view=0x7f04001e;
         public static final int hybrid=0x7f040004;
-        public static final int imageconfirmed=0x7f040025;
-        public static final int info=0x7f04002a;
+        public static final int imageconfirmed=0x7f040026;
+        public static final int info=0x7f04002b;
         public static final int info_date=0x7f04000f;
         public static final int info_description=0x7f040010;
         public static final int info_develloped=0x7f04000c;
@@ -177,7 +177,7 @@ containing a value of this type.
         public static final int info_version=0x7f04000e;
         public static final int linearLayout1=0x7f040005;
         public static final int list=0x7f040008;
-        public static final int load_foto=0x7f04001c;
+        public static final int load_foto=0x7f04001d;
         public static final int mainlayout=0x7f040013;
         public static final int mapview=0x7f040014;
         public static final int none=0x7f040000;
@@ -186,11 +186,12 @@ containing a value of this type.
         public static final int row_tick=0x7f040016;
         public static final int row_valoracion=0x7f040018;
         public static final int satellite=0x7f040002;
+        public static final int scrollView1=0x7f040019;
         public static final int terrain=0x7f040003;
-        public static final int title=0x7f040024;
-        public static final int ver_tipo=0x7f040029;
-        public static final int ver_valoracion=0x7f040027;
-        public static final int view_comentar=0x7f04002b;
+        public static final int title=0x7f040025;
+        public static final int ver_tipo=0x7f04002a;
+        public static final int ver_valoracion=0x7f040028;
+        public static final int view_comentar=0x7f04002c;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -205,7 +206,16 @@ containing a value of this type.
     public static final class string {
         public static final int accept=0x7f050018;
         public static final int action_settings=0x7f050012;
+        public static final int ad_confirm=0x7f050031;
+        public static final int ad_default_name=0x7f050038;
+        public static final int ad_delete=0x7f05002d;
+        public static final int ad_save=0x7f05003a;
+        public static final int ad_sent=0x7f050033;
+        public static final int ad_valid_address=0x7f05003b;
         public static final int app_name=0x7f050011;
+        public static final int ask_confirm=0x7f050030;
+        public static final int ask_default_address=0x7f050037;
+        public static final int ask_delete=0x7f05002e;
         /**   Title for notification shown when GooglePlayServices is unavailable [CHAR LIMIT=70] 
          */
         public static final int auth_client_availability_notification_title=0x7f05000e;
@@ -217,6 +227,7 @@ containing a value of this type.
         public static final int auth_client_requested_by_msg=0x7f050010;
         public static final int but_A=0x7f050013;
         public static final int but_B=0x7f050014;
+        public static final int cancel=0x7f050032;
         public static final int comment=0x7f050015;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
@@ -277,9 +288,11 @@ containing a value of this type.
         public static final int devellopers=0x7f050028;
         public static final int edit_store=0x7f050024;
         public static final int enviar_comentario=0x7f050025;
+        public static final int from_gallery=0x7f050034;
         public static final int hint_address=0x7f050021;
         public static final int hint_comentario=0x7f050023;
         public static final int hint_info=0x7f050022;
+        public static final int import_fail=0x7f050036;
         public static final int info=0x7f05002b;
         public static final int load_foto=0x7f05001f;
         public static final int menu_delete=0x7f05001d;
@@ -287,8 +300,11 @@ containing a value of this type.
         public static final int menu_help=0x7f05001b;
         public static final int menu_insert=0x7f050019;
         public static final int menu_map=0x7f05001a;
+        public static final int no_address=0x7f050039;
         public static final int no_stores=0x7f050017;
+        public static final int provider_not_avalaible=0x7f05002f;
         public static final int rights=0x7f05002c;
+        public static final int take_pic=0x7f050035;
         public static final int title=0x7f05001e;
         public static final int ver_comentarios=0x7f050026;
         public static final int version=0x7f050029;

@@ -44,7 +44,7 @@ public class CustomCursorAdapter extends CursorAdapter {
 	        TextView direccion= (TextView) view.findViewById(R.id.direccion);
 	        direccion.setText(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_ADDRESS)));	    	
 	        TextView distancia =(TextView) view.findViewById(R.id.row_distancia);
-	        distancia.setText(""+distance);
+	        distancia.setText(""+distance+" m");
 	        ImageView confirmed = (ImageView) view.findViewById(R.id.row_tick);
 	        confirmed.setVisibility(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_CONFIRMED))));        
 	        RatingBar valoracion = (RatingBar) view.findViewById(R.id.row_valoracion);
