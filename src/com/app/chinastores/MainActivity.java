@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.app.chinastores.R;
-//import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLng;
 
 import android.app.Activity;
 import android.content.Context;
@@ -60,9 +60,10 @@ public class MainActivity extends Activity implements LocationListener{
     private boolean bazar;
     private Button alim;
     private Button baz;
+    private List<Float> distancias;
     
-    private double lat;
-    private double lon;
+    private double lat = 40.45;
+    private double lon = -3.65;
 
     /** Called when the activity is first created. */
     @Override
@@ -70,6 +71,7 @@ public class MainActivity extends Activity implements LocationListener{
         super.onCreate(savedInstanceState);
         iniciarLocalizador();
         bazar=false;
+        distancias= new ArrayList<Float>();
         setContentView(R.layout.activity_main);
         alim= (Button) findViewById(R.id.ButtonA);
         baz= (Button) findViewById(R.id.ButtonB);
@@ -126,17 +128,20 @@ public class MainActivity extends Activity implements LocationListener{
 			System.out.println("Provider " + provider + " has been selected.");
 			lat = (location.getLatitude());
 			lon = (location.getLongitude());
+			sacarDistancias();
 		} else {
+			sacarDistancias();
 			Toast.makeText(this, "Provider not available",
 					Toast.LENGTH_SHORT).show();
 		}
+		
     }
 
     private void fillData(boolean bazar) {
         // Get all of the rows from the database and create the item list
     	mDbHelper.open();
-        Cursor mNotesCursor = mDbHelper.fetchByType(bazar);
-
+    	Cursor mNotesCursor = mDbHelper.fetchByType(bazar);
+    	//List<Store> lista = mDbHelper.fetchStoresByCursor(mDbHelper.fetchByType(bazar));
         // Now create a simple cursor adapter and set it to display
        stores =  new CustomCursorAdapter(this, mNotesCursor, (int) distancia(), bazar);
        list.setAdapter(stores);
@@ -297,6 +302,17 @@ public class MainActivity extends Activity implements LocationListener{
         //}
     }
     
+    public void sacarDistancias(){
+    	List<String> direcciones = new ArrayList<String>();//mDbHelper.getDirecciones();
+    	String direccion1 = "C/ Hernandez de Tejada, 10";
+    	String direccion2 ="C/Napoles, 21";
+    	direcciones.add(direccion1);
+    	direcciones.add(direccion2);
+    	for (String direccion : direcciones){
+    		direccion += ",Madrid, SPAIN";
+    	}
+    	new GeocodingTask(this).execute(direcciones);
+    }
 
 // AsyncTask encapsulating the reverse-geocoding API.  Since the geocoder API is blocked,
 // we do not want to invoke it from the UI thread.
@@ -331,8 +347,8 @@ public class MainActivity extends Activity implements LocationListener{
         }
         return null;
     }
-}/** 
-    private class GeocodingTask extends AsyncTask<String, Void, Void> {
+}
+    private class GeocodingTask extends AsyncTask<List<String>, Void, List<Float>> {
         Context mContext;
 
         public GeocodingTask(Context context) {
@@ -341,28 +357,37 @@ public class MainActivity extends Activity implements LocationListener{
         }
         
         @Override
-        protected Void doInBackground(String... addresses) {
+        protected List<Float> doInBackground(List<String>... addresses) {
             Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
-            //LatLng [] loc = new LatLng[addresses.length];
-            List<Float> distancias = new ArrayList<Float>();
+            if (geocoder== null) Log.e("geocoder", "no funciona el geocoder");
+            List<String> ad = addresses[0];
+            LatLng [] loc = new LatLng[ad.size()];
+            distancias = new ArrayList<Float>();           
             try {
+            	
                 // Call the synchronous getFromLocation() method by passing in the lat/long values.
            	for (int i=0; i<loc.length; i++){
-                Address direccion = geocoder.getFromLocationName(addresses[i], 1).get(0);
+                Address direccion = geocoder.getFromLocationName(ad.get(i), 1).get(0);
+                if (direccion== null) Log.e("direccion", "no funciona el geocoder");
                 double latn= direccion.getLatitude();
                 double lonn= direccion.getLongitude();
-               // loc[i] = new LatLng(latn, lonn);
+                loc[i] = new LatLng(latn, lonn);
+                Log.w("myposition", lat+" "+ lon);
+                Log.w("latlng", loc[i].toString());
                 float[] distancia= new float[3];
                 Location.distanceBetween(lat, lon, latn, lonn, distancia);
+                Log.w("distancia", direccion.toString() + distancia);
                 if(distancia[0] != 0 && distancia[0]<DISTANCIA_MAX) distancias.add((float) Math.round(distancia[0]/10)/100);
             	}
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e("excepcion severa", e.getMessage());
             }
             if (distancias != null && distancias.size() > 0) {
-              
-            
+            	Log.w("devuelve distancias", "esta linea se ejecuta");
+              return distancias;
+            }
             return null;
-        }}
-    }*/
+        
+            }
+    }
 }

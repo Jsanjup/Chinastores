@@ -51,20 +51,20 @@ public class StoresDbAdapter {
     public static final String KEY_COMENTS = "coments";
     public static final String KEY_CONFIRMED= "confirmation";
     public static final String KEY_ROWID = "_id";
+    public static final String KEY_DISTANCE ="distance";
     public static final int CONFIRMED = 0;
     public static final int NOTCONFIRMED = 4;
 
     private static final String TAG = "NotesDbAdapter";
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
-    private List<Store> tiendas;
 
     /**
      * Database creation sql statement
      */
     private static final String DATABASE_CREATE =
         "create table stores (_id integer primary key autoincrement, "
-        + "type text not null, address text not null, valoration integer not null, numvaloration integer not null, foto text not null, info text not null, coments text not null, confirmation integer not null);";
+        + "type text not null, address text not null, valoration float not null, numvaloration integer, foto text not null, info text not null, coments text not null, confirmation integer, distance double);";
 
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "stores";
@@ -104,7 +104,6 @@ public class StoresDbAdapter {
      */
     public StoresDbAdapter(Context ctx) {
         this.mCtx = ctx;
-        tiendas=new ArrayList<Store>();
     }
 
     /**
@@ -136,12 +135,12 @@ public class StoresDbAdapter {
      * @param body the body of the note
      * @return rowId or -1 if failed
      */
-    public long createNote(char A, String address, float valor,int nval, String foto, String info, String coments, boolean confirmed) {
+    public long createNote(char A, String address, float valor,int nval, String foto, String info, String coments, boolean confirmed, double distance) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_TYPE, ""+A);
         initialValues.put(KEY_ADDRESS, address);
-        initialValues.put(KEY_VALOR, nval);
-        initialValues.put(KEY_NVALOR, 0);
+        initialValues.put(KEY_VALOR, valor);
+        initialValues.put(KEY_NVALOR, nval);
         initialValues.put(KEY_FOTO, foto);
         initialValues.put(KEY_INFO, info);
         initialValues.put(KEY_COMENTS, coments);
@@ -149,14 +148,13 @@ public class StoresDbAdapter {
             initialValues.put(KEY_CONFIRMED, CONFIRMED);
         else 
             initialValues.put(KEY_CONFIRMED, NOTCONFIRMED);
-        
+        initialValues.put(KEY_DISTANCE, distance+"");
 
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
     
     public long createStore(Store store){
-    	//tiendas.add(store);
-    	return createNote(store.getType(), store.getAddress(),store.getVal(),store.getNumval(),store.getFoto(),store.getInfo(),store.getComments(), store.isConfirmed());  
+    	return createNote(store.getType(), store.getAddress(),store.getVal(),store.getNumval(),store.getFoto(),store.getInfo(),store.getComments(), store.isConfirmed(), 0.0);  
     }
 
     /**
@@ -178,22 +176,17 @@ public class StoresDbAdapter {
     public Cursor fetchAllNotes() {
 
         return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TYPE,
-                KEY_ADDRESS, KEY_VALOR, KEY_NVALOR, KEY_FOTO, KEY_INFO, KEY_COMENTS, KEY_CONFIRMED}, null, null, null, null, null);
+                KEY_ADDRESS, KEY_VALOR, KEY_NVALOR, KEY_FOTO, KEY_INFO, KEY_COMENTS, KEY_CONFIRMED, KEY_DISTANCE}, null, null, null, null, null);
     }
     
-    public List<Store> fetchAllStores(){
-    	Cursor cursor = fetchAllNotes();
-
-    	Log.e("tama–o bbdd total", cursor.getCount()+"");
-    	Log.e("posicion bbdd total", cursor.getPosition()+"");
-    	if(cursor!=null){
-    		Log.e("bbdd", "base de datos nula");
+    public List<Store> fetchStoresByCursor(Cursor mCursor){
+    	if(mCursor!=null){
     	List<Store> list = new ArrayList<Store>();
-    	cursor.moveToFirst();
-    	while(cursor.moveToNext()){
-    		list.add(getStore(cursor.getPosition()));
+    	mCursor.moveToFirst();
+    	while(!mCursor.isLast()){
+    		list.add(CursorToStore(mCursor));
+    		mCursor.moveToNext();
     	}
-    	tiendas = list;
     	return list;
     	}else return null;
     }
@@ -208,7 +201,7 @@ public class StoresDbAdapter {
     	Cursor mCursor=null;
     	try{
         mCursor= mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TYPE,
-                KEY_ADDRESS, KEY_VALOR, KEY_CONFIRMED},  KEY_TYPE + "=?", tip, null, null, null);
+                KEY_ADDRESS, KEY_VALOR, KEY_CONFIRMED},  KEY_TYPE + "=?" , tip, null, null, null);
     	}catch(Exception e){
     		Log.w("cursor", "ha saltado excepcion");
     	}
@@ -219,19 +212,7 @@ public class StoresDbAdapter {
         return mCursor;
     }
     
-    public List<Store> fetchStoreByType(boolean type) throws SQLException{
-    	List<Store> list = new ArrayList<Store>();
-    	Cursor cursor = fetchByType(type);
-    	Log.e("tama–o bbdd por tipo "+ type, cursor.getCount()+"");
-    	if(cursor!=null && cursor.moveToFirst()){
-            Log.e("posicion inicial bbdd por tipo "+ type, cursor.getPosition()+"");
-    		while(cursor.moveToNext()){
-            Log.e("posicion bucle bbdd por tipo "+ type, cursor.getPosition()+"");
-    		list.add(getStore(cursor.getPosition()));
-    	}
-    		}else Log.w("problema cursor", "es nulo");
-    	return list;
-    }
+    
 
     /**
      * Return a Cursor positioned at the note that matches the given rowId
@@ -245,7 +226,7 @@ public class StoresDbAdapter {
         Cursor mCursor =
 
             mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TYPE,
-                    KEY_ADDRESS, KEY_VALOR, KEY_NVALOR, KEY_FOTO, KEY_INFO, KEY_COMENTS, KEY_CONFIRMED}, KEY_ROWID + "=" + rowId, null,
+                    KEY_ADDRESS, KEY_VALOR, KEY_NVALOR, KEY_FOTO, KEY_INFO, KEY_COMENTS, KEY_CONFIRMED, KEY_DISTANCE}, KEY_ROWID + "=" + rowId, null,
                     null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -267,7 +248,36 @@ public class StoresDbAdapter {
         String info = mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_INFO));
         String coments = mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_COMENTS));
         String foto = mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_FOTO));
-        Store store = new Store(tipo, address, valoracion, nvaloraciones, foto, info, coments, confirmed );
+        double distance=Double.parseDouble(mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_DISTANCE)));
+        Store store = new Store(tipo, address, valoracion, nvaloraciones, foto, info, coments, confirmed);
+        store.setDistancia(distance);
+        return store;}
+        else return null;
+    }
+    public List<String> getDirecciones(){
+    	List<String> direcciones = new ArrayList<String>();
+    	Cursor mCursor =mDb.query(true, DATABASE_TABLE, new String[] {KEY_ADDRESS}, null, null, null, null, null, null);
+            if (mCursor != null) {
+                mCursor.moveToFirst();
+                direcciones.add(mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_ADDRESS)));
+        		mCursor.moveToNext();
+            }
+            return direcciones;
+    }
+    
+    public Store CursorToStore(Cursor mCursor) throws SQLException {
+        if (mCursor!=null) {
+        char tipo = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_TYPE)).charAt(0);
+        String address = mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_ADDRESS));	    	
+        boolean confirmed =(Integer.parseInt(mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_CONFIRMED)))==CONFIRMED);
+        float valoracion= Float.parseFloat(mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_VALOR)));
+        int nvaloraciones= Integer.parseInt(mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_NVALOR)));
+        String info = mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_INFO));
+        String coments = mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_COMENTS));
+        String foto = mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_FOTO));
+        double distance=Double.parseDouble(mCursor.getString(mCursor.getColumnIndexOrThrow(StoresDbAdapter.KEY_DISTANCE)));
+        Store store = new Store(tipo, address, valoracion, nvaloraciones, foto, info, coments, confirmed);
+        store.setDistancia(distance);
         return store;}
         else return null;
     }
@@ -300,7 +310,7 @@ public class StoresDbAdapter {
      * @param body value to set note body to
      * @return true if the note was successfully updated, false otherwise
      */
-    public boolean updateNote(long rowId, char A, String address, float valor, int nValor, String foto, String info, String coments, boolean confirmed) {
+    public boolean updateNote(long rowId, char A, String address, float valor, int nValor, String foto, String info, String coments, boolean confirmed, double distance) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_TYPE, ""+A);
         initialValues.put(KEY_ADDRESS, address);
@@ -313,11 +323,16 @@ public class StoresDbAdapter {
             initialValues.put(KEY_CONFIRMED, CONFIRMED);
         else 
             initialValues.put(KEY_CONFIRMED, NOTCONFIRMED);
-
+        initialValues.put(KEY_DISTANCE, distance+"");
         return mDb.update(DATABASE_TABLE, initialValues, KEY_ROWID + "=" + rowId, null) > 0;
     }
     
     public boolean updateNote(long rowId, Store store) {
-    	return updateNote(rowId, store.getType(), store.getAddress(),store.getVal(),store.getNumval(),store.getFoto(),store.getInfo(),store.getComments(), store.isConfirmed());  
+    	return updateNote(rowId, store.getType(), store.getAddress(),store.getVal(),store.getNumval(),store.getFoto(),store.getInfo(),store.getComments(), store.isConfirmed(), 0.0);  
+    }
+    
+
+    public boolean updateNote(long rowId, Store store, double distance) {
+    	return updateNote(rowId, store.getType(), store.getAddress(),store.getVal(),store.getNumval(),store.getFoto(),store.getInfo(),store.getComments(), store.isConfirmed(), distance);  
     }
 }

@@ -103,7 +103,10 @@ public class StoreEdit extends Activity {
                                     : null;
             remove.setEnabled(false);
             confirmar.setEnabled(false);
-        }else remove.setEnabled(true);
+        }else {
+        	remove.setEnabled(true);
+        	confirmar.setEnabled(true);
+        }
            
         populateFields();
 		image= new File(getFilesDir()+"/"+store.getFoto());
@@ -123,7 +126,7 @@ public class StoreEdit extends Activity {
 
         	public void onClick(View view) {
         		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        		builder.setTitle("ÀSequro que desea eliminar la tienda?");
+        		builder.setTitle("ÀSeguro que desea eliminar la tienda?");
         		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
         	           public void onClick(DialogInterface dialog, int id) {
         	        	   setResult(RESULT_DELETE);
@@ -175,7 +178,7 @@ public class StoreEdit extends Activity {
         	       });
         	builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
         	           public void onClick(DialogInterface dialog, int id) {
-        	               return;
+        	               confirmar.setChecked(false);
         	           }
         });builder.create().show();
                
@@ -211,10 +214,10 @@ public class StoreEdit extends Activity {
     }
     
     private void envio(){
-    	store.addComent(comentar.getText().toString());
+    	if(comentar.getText().toString().length()>=3){store.addComent(comentar.getText().toString());
     	saveState();
     	Toast.makeText(mContext,"Comentario enviado" , Toast.LENGTH_SHORT).show();
-    	populateFields();
+    	populateFields();}
     }
     
     private void dispatchTakePictureIntent() {
@@ -239,6 +242,7 @@ public class StoreEdit extends Activity {
        case TAKE_FOTO:
     	handleSmallCameraPhoto(data);
        	saveState();
+       	break;
        case PICK_FROM_GALLERY:
     	   Uri selectedImageUri = data.getData();
            imagen.setImageURI(selectedImageUri);
@@ -247,6 +251,7 @@ public class StoreEdit extends Activity {
            imagen.setVisibility(View.VISIBLE);
            foto.setEnabled(false);
            saveState();
+           break;
        }
     	super.onActivityResult(requestCode, resultCode, data);
     }
@@ -301,6 +306,7 @@ public class StoreEdit extends Activity {
     	mDbHelper.open();
         if (mRowId != null) {
         	remove.setEnabled(true);
+        	confirmar.setEnabled(true);
             store= mDbHelper.getStore(mRowId);
             direccion.setText(store.getAddress());
             info.setText(store.getInfo());
@@ -340,6 +346,8 @@ public class StoreEdit extends Activity {
         mDbHelper.open();
         if (mRowId == null) {
         	createStore();
+        	long id = mDbHelper.createStore(store);
+    		if (id > 0) mRowId = id;
         } else {
         	store.setAddress(direccion.getText().toString());
             store.setInfo(info.getText().toString());
@@ -351,7 +359,5 @@ public class StoreEdit extends Activity {
 	private void createStore(){
 		confirmar.setEnabled(false);
 		store = new Store(type, direccion.getText().toString(), valorar.getRating(), info.getText().toString());
-		long id = mDbHelper.createStore(store);
-		if (id > 0) mRowId = id;
-		}
+	}
 }
